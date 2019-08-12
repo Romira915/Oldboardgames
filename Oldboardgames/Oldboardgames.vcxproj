@@ -72,9 +72,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <SourcePath>$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <SourcePath>$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -89,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Yudai\workspace\Library\DxLib_VC3_20f\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Yudai\workspace\Library\DxLib_VC3_20f\DxLib_VC\プロジェクトに追加すべきファイル_VC用;Source\ヘッダー ファイル</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -105,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Yudai\workspace\Library\DxLib_VC3_20f\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Yudai\workspace\Library\DxLib_VC3_20f\DxLib_VC\プロジェクトに追加すべきファイル_VC用;Source\ヘッダー ファイル</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -155,11 +159,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ソース ファイル\BaseScene.cpp" />
+    <ClCompile Include="Source\ソース ファイル\ISceneChanger.cpp" />
     <ClCompile Include="Source\ソース ファイル\Main.cpp" />
     <ClCompile Include="Source\ソース ファイル\SceneManager.cpp" />
+    <ClCompile Include="Source\ソース ファイル\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ヘッダー ファイル\BaseScene.h" />
+    <ClInclude Include="Source\ヘッダー ファイル\ISceneChanger.h" />
     <ClInclude Include="Source\ヘッダー ファイル\SceneManager.h" />
+    <ClInclude Include="Source\ヘッダー ファイル\Task.h" />
+    <ClInclude Include="Source\ヘッダー ファイル\Title.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
