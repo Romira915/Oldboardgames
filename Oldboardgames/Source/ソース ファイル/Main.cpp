@@ -1,11 +1,12 @@
 #include "DxLib.h"
 #include "SceneManager.h"
+#include "Task.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	if (ChangeWindowMode(true) != DX_CHANGESCREEN_OK || SetMainWindowText("Mancara") == -1
-		|| SetGraphMode(1280, 720, 32) == -1 || DxLib_Init() == -1
-		|| SetDrawScreen(DX_SCREEN_BACK) == -1) {
+	if (ChangeWindowMode(true) != DX_CHANGESCREEN_OK || SetMainWindowText("Mancala") == -1
+		|| SetGraphMode(SCREEN_SIZEX, SCREEN_SIZEY, 32) == -1 || DxLib_Init() == -1
+		|| SetDrawScreen(DX_SCREEN_BACK) == -1 || SetWindowSizeChangeEnableFlag(TRUE) == -1) {
 		return -1;
 	}
 

@@ -1,6 +1,5 @@
 #include "SceneManager.h"
 #include "DxLib.h"
-#include "SceneManager.h"
 #include "Title.h"
 
 SceneManager::SceneManager() :

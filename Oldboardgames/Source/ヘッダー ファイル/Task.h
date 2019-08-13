@@ -1,4 +1,8 @@
 #pragma once
+
+#define SCREEN_SIZEX 1280
+#define SCREEN_SIZEY 720
+
 class Task
 {
 public:
