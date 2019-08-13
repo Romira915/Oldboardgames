@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "SceneManager.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -8,12 +9,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;
 	}
 
+	SceneManager* sceneMgr = new SceneManager;
+	sceneMgr->Initialize();
+
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0)
 	{
-
+		sceneMgr->Update();
+		sceneMgr->Draw();
 	}
 
-
+	sceneMgr->Finalize();
+	delete sceneMgr;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 	return 0;				// ソフトの終了 

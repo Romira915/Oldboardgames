@@ -12,12 +12,11 @@ private:
 
 public:
 	SceneManager();
-	void Initialize() override;//初期化
-	void Finalize() override;//終了処理
-	void Update() override;//更新
-	void Draw() override;//描画
+	void Initialize() override;	//初期化
+	void Finalize() override;	//終了処理
+	void Update() override;		//更新
+	void Draw() override;		//描画
 
-	// 引数 nextScene にシーンを変更する
+	// 引数 NextScene にシーンを変更する
 	void ChangeScene(eScene NextScene) override;
-
 };
