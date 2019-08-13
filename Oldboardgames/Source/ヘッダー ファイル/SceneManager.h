@@ -2,8 +2,9 @@
 
 #include "ISceneChanger.h"
 #include "BaseScene.h"
+#include "GetKey.h"
 
-class SceneManager : public ISceneChanger, Task {
+class SceneManager : public ISceneChanger, GetKey, Task {
 
 private:
 	BaseScene* mScene;    //ƒV[ƒ“ŠÇ—•Ï”

@@ -15,6 +15,8 @@ class Title : public BaseScene
 {
 public:
 	Title(ISceneChanger* changer);
+	Title(ISceneChanger* changer, OtherInterface* OI);
+
 	void Initialize() override;    //初期化処理をオーバーライド。
 	void Finalize() override;        //終了処理をオーバーライド。
 	void Update() override;        //更新処理をオーバーライド。

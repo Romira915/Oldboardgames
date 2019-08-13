@@ -43,3 +43,27 @@ void GetKey::Update()
 		}
 	}
 }
+
+bool GetKey::KeyUp(char key)
+{
+	if (key_previous[key] != 0 && key_frame[key] == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool GetKey::KeyDown(char key)
+{
+	if (key_previous[key] == 0 && key_frame[key] != 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

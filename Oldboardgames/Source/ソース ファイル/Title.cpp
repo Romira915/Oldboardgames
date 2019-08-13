@@ -5,6 +5,10 @@ Title::Title(ISceneChanger* changer) : BaseScene(changer)
 {
 }
 
+Title::Title(ISceneChanger* changer, OtherInterface* OI) : BaseScene(changer, OI)
+{
+}
+
 void Title::Initialize()
 {
 	titleHandle = LoadGraph(title_filepath);
@@ -26,7 +30,7 @@ void Title::Finalize()
 
 void Title::Update()
 {
-
+	
 }
 
 void Title::Draw()

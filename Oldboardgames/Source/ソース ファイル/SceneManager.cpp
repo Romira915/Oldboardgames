@@ -5,11 +5,12 @@
 SceneManager::SceneManager() :
 	mNextScene(eScene_None) //次のシーン管理変数
 {
-	mScene = (BaseScene*) new Title(this);
+	mScene = (BaseScene*) new Title(this,this);
 }
 
 //初期化
 void SceneManager::Initialize() {
+	GetKey::Initialize();
 	mScene->Initialize();
 }
 
@@ -20,12 +21,13 @@ void SceneManager::Finalize() {
 
 //更新
 void SceneManager::Update() {
+	GetKey::Update();
 	if (mNextScene != eScene_None) {    //次のシーンがセットされていたら
 		mScene->Finalize();//現在のシーンの終了処理を実行
 		delete mScene;
 		switch (mNextScene) {       //シーンによって処理を分岐
 		case eScene_Title:        //次の画面がメニューなら
-			mScene = (BaseScene*) new Title(this);   //メニュー画面のインスタンスを生成する
+			mScene = (BaseScene*) new Title(this, this);   //メニュー画面のインスタンスを生成する
 			break;//以下略
 		}
 		mNextScene = eScene_None;    //次のシーン情報をクリア
