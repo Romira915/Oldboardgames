@@ -1,4 +1,4 @@
-#include "GetKey.h"
+#include "Other.h"
 #include "DxLib.h"
 
 GetKey::GetKey()
@@ -66,4 +66,9 @@ bool GetKey::KeyDown(char key)
 	{
 		return false;
 	}
+}
+
+char* GetKey::Key_Frame()
+{
+	return key_frame;
 }

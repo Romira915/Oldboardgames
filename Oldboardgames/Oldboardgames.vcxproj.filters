@@ -21,19 +21,13 @@
     <ClCompile Include="Source\ソース ファイル\SceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\ISceneChanger.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ソース ファイル\BaseScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\ソース ファイル\Title.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\GetKey.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\OtherInterface.cpp">
+    <ClCompile Include="Source\ソース ファイル\Other.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +47,10 @@
     <ClInclude Include="Source\ヘッダー ファイル\Title.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\GetKey.h">
+    <ClInclude Include="Source\ヘッダー ファイル\OtherInterface.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\OtherInterface.h">
+    <ClInclude Include="Source\ヘッダー ファイル\Other.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

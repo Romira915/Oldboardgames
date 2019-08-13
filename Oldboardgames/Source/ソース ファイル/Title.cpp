@@ -16,6 +16,7 @@ void Title::Initialize()
 	cursorHandle = LoadGraph(cursor_filepath);
 	exitHandle = LoadGraph(exit_filepath);
 
+	eNowCursor = ePvP;
 	cursorXY.x = CURSOR_PVP_X;
 	cursorXY.y = SCREEN_SIZEY * (PVP_Y - 0.01);
 }
@@ -30,7 +31,32 @@ void Title::Finalize()
 
 void Title::Update()
 {
-	
+	if (mOtherInterface->KeyDown(KEY_INPUT_DOWN))
+	{
+		eNowCursor = eSelect((eNowCursor + 1) % Max);
+	}
+	if (mOtherInterface->KeyDown(KEY_INPUT_UP))
+	{
+		eNowCursor = eSelect((eNowCursor - 1 + Max) % Max);
+	}
+
+	switch (eNowCursor)
+	{
+	case ePvP:
+		cursorXY.x = CURSOR_PVP_X;
+		cursorXY.y = SCREEN_SIZEY * (PVP_Y - 0.01); 
+		break;
+	case eExit: 
+		cursorXY.x = CURSOR_EXIT_X;
+		cursorXY.y = SCREEN_SIZEY * EXIT_Y;
+		if (mOtherInterface->KeyDown(KEY_INPUT_RETURN))
+		{
+			mSceneChanger->ChangeScene(eScene_End);
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void Title::Draw()

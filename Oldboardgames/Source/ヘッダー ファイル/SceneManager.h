@@ -2,13 +2,16 @@
 
 #include "ISceneChanger.h"
 #include "BaseScene.h"
-#include "GetKey.h"
+#include "Other.h"
 
-class SceneManager : public ISceneChanger, GetKey, Task {
+class SceneManager : public ISceneChanger, Task {
 
 private:
 	BaseScene* mScene;    //シーン管理変数
 	eScene mNextScene;    //次のシーン管理変数
+	Other* mOther;
+
+	bool isGameEnd;
 
 public:
 	SceneManager();
@@ -19,4 +22,6 @@ public:
 
 	// 引数 NextScene にシーンを変更する
 	void ChangeScene(eScene NextScene) override;
+
+	bool IsGameEnd() const;
 };

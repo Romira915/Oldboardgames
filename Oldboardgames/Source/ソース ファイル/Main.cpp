@@ -17,6 +17,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		sceneMgr->Update();
 		sceneMgr->Draw();
+		if (sceneMgr->IsGameEnd())
+		{
+			break;
+		}
 	}
 
 	sceneMgr->Finalize();

@@ -160,16 +160,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\ソース ファイル\BaseScene.cpp" />
-    <ClCompile Include="Source\ソース ファイル\GetKey.cpp" />
-    <ClCompile Include="Source\ソース ファイル\ISceneChanger.cpp" />
+    <ClCompile Include="Source\ソース ファイル\Other.cpp" />
     <ClCompile Include="Source\ソース ファイル\Main.cpp" />
-    <ClCompile Include="Source\ソース ファイル\OtherInterface.cpp" />
     <ClCompile Include="Source\ソース ファイル\SceneManager.cpp" />
     <ClCompile Include="Source\ソース ファイル\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\ヘッダー ファイル\BaseScene.h" />
-    <ClInclude Include="Source\ヘッダー ファイル\GetKey.h" />
+    <ClInclude Include="Source\ヘッダー ファイル\Other.h" />
     <ClInclude Include="Source\ヘッダー ファイル\ISceneChanger.h" />
     <ClInclude Include="Source\ヘッダー ファイル\OtherInterface.h" />
     <ClInclude Include="Source\ヘッダー ファイル\SceneManager.h" />
