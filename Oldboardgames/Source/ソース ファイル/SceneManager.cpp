@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "DxLib.h"
 #include "Title.h"
+#include "Mancala.h"
 
 SceneManager::SceneManager() :
 	mNextScene(eScene_None) //次のシーン管理変数
@@ -33,6 +34,9 @@ void SceneManager::Update() {
 		case eScene_Title:        //次の画面がメニューなら
 			mScene = (BaseScene*) new Title(this, mOther);   //メニュー画面のインスタンスを生成する
 			break;//以下略
+		case eScene_Game:
+			mScene = (BaseScene*) new Mancala(this, mOther);
+			break;
 		case eScene_End:
 			isGameEnd = true;
 			mScene = new BaseScene(this, mOther); // ダミーのScene

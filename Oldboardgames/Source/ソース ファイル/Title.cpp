@@ -1,10 +1,6 @@
 #include "Title.h"
 #include "DxLib.h"
 
-Title::Title(ISceneChanger* changer) : BaseScene(changer)
-{
-}
-
 Title::Title(ISceneChanger* changer, OtherInterface* OI) : BaseScene(changer, OI)
 {
 }
@@ -45,6 +41,10 @@ void Title::Update()
 	case ePvP:
 		cursorXY.x = CURSOR_PVP_X;
 		cursorXY.y = SCREEN_SIZEY * (PVP_Y - 0.01); 
+		if (mOtherInterface->KeyDown(KEY_INPUT_RETURN))
+		{
+			mSceneChanger->ChangeScene(eScene_Game);
+		}
 		break;
 	case eExit: 
 		cursorXY.x = CURSOR_EXIT_X;

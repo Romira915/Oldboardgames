@@ -22,7 +22,6 @@ typedef enum {
 class Title : public BaseScene
 {
 public:
-	Title(ISceneChanger* changer);
 	Title(ISceneChanger* changer, OtherInterface* OI);
 
 	void Initialize() override;    //初期化処理をオーバーライド。

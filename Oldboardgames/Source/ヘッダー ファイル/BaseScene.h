@@ -11,7 +11,6 @@ protected:
 	OtherInterface* mOtherInterface;
 
 public:
-	BaseScene(ISceneChanger* changer);
 	BaseScene(ISceneChanger* changer, OtherInterface* OI);
 	virtual ~BaseScene() {}
 	virtual void Initialize() override {}    //初期化処理をオーバーライド。

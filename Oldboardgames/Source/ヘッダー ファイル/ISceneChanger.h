@@ -11,5 +11,6 @@ typedef enum {
 //シーンを変更するためのインターフェイスクラス
 class ISceneChanger {
 public:
+	virtual ~ISceneChanger() {}
 	virtual void ChangeScene(eScene NextScene) = 0;	//指定シーンに変更する
 };
