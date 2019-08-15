@@ -1,7 +1,7 @@
 #pragma once
 
-#define SCREEN_SIZEX 1920
-#define SCREEN_SIZEY 1080
+#define SCREEN_SIZEX 1280
+#define SCREEN_SIZEY 720
 
 class Task
 {

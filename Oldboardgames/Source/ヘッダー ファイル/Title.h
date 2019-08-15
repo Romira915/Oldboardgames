@@ -9,8 +9,8 @@
 #define EXIT_X 0.5
 #define EXIT_Y 0.75
 
-#define CURSOR_PVP_X SCREEN_SIZEX * PVP_X - (825 / 2.0 - 97 / 2.0)
-#define CURSOR_EXIT_X SCREEN_SIZEX * EXIT_X - (177 / 2.0 + 97 / 2.0)
+#define CURSOR_PVP_X (SCREEN_SIZEX * PVP_X - (825 / 2.0 + 97 / 1.5) * SCREEN_SIZEX / 1920.0)
+#define CURSOR_EXIT_X (SCREEN_SIZEX * EXIT_X - (177 / 2.0 + 97 / 1.5) * SCREEN_SIZEX / 1920.0)
 
 typedef enum {
 	ePvP,

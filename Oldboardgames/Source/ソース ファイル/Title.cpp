@@ -40,7 +40,7 @@ void Title::Update()
 	{
 	case ePvP:
 		cursorXY.x = CURSOR_PVP_X;
-		cursorXY.y = SCREEN_SIZEY * (PVP_Y - 0.01); 
+		cursorXY.y = SCREEN_SIZEY * (PVP_Y - 0.015); 
 		if (mOtherInterface->KeyDown(KEY_INPUT_RETURN))
 		{
 			mSceneChanger->ChangeScene(eScene_Game);
@@ -61,8 +61,8 @@ void Title::Update()
 
 void Title::Draw()
 {
-	DrawRotaGraph2(SCREEN_SIZEX * TITLE_X, SCREEN_SIZEY * TITLE_Y, 1051 / 2, 221 / 2, SCREEN_SIZEX / 1920.0, 0, titleHandle, TRUE, FALSE);
-	DrawRotaGraph2(SCREEN_SIZEX * PVP_X, SCREEN_SIZEY * PVP_Y, 825 / 2, 101 / 2, SCREEN_SIZEX / 1920.0 * 1, 0, pvpHandle, TRUE, FALSE);
-	DrawRotaGraph2(SCREEN_SIZEX * EXIT_X, SCREEN_SIZEY * EXIT_Y, 177 / 2, 76 / 2, SCREEN_SIZEX / 1920.0, 0, exitHandle, TRUE, FALSE);
-	DrawRotaGraph2(int(cursorXY.x), int(cursorXY.y), 97 / 2, 40 / 2, SCREEN_SIZEX / 1920.0 * 1, 0, cursorHandle, TRUE, FALSE);
+	DrawRotaGraph2(SCREEN_SIZEX * TITLE_X - (1051 / 2 * SCREEN_SIZEX / 1920.0), SCREEN_SIZEY * TITLE_Y - 221 / 2, 0, 0, SCREEN_SIZEX / 1920.0, 0, titleHandle, TRUE, FALSE);
+	DrawRotaGraph2(SCREEN_SIZEX * PVP_X - (825 / 2 * SCREEN_SIZEX / 1920.0), SCREEN_SIZEY * PVP_Y - 101 / 2, 0, 0, SCREEN_SIZEX / 1920.0 * 1, 0, pvpHandle, TRUE, FALSE);
+	DrawRotaGraph2(SCREEN_SIZEX * EXIT_X - (177 / 2 * SCREEN_SIZEX / 1920.0), SCREEN_SIZEY * EXIT_Y - 76 / 2, 0, 0, SCREEN_SIZEX / 1920.0, 0, exitHandle, TRUE, FALSE);
+	DrawRotaGraph2(int(cursorXY.x) - (97 / 2 * SCREEN_SIZEX / 1920.0), int(cursorXY.y) - 40 / 2, 0, 0, SCREEN_SIZEX / 1920.0 * 1, 0, cursorHandle, TRUE, FALSE);
 }
