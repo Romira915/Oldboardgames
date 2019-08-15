@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <cstdio>
 
 #define COIN_IMGNUM 5 
 
@@ -13,9 +12,10 @@
 #define PLAYER12_IMGY 0.03
 
 #define COIN_NUM 14 * 4
+#define BOARD_NUM 16
 
 
-class Mancala : public BaseScene 
+class Mancala : public BaseScene
 {
 public:
 	Mancala(ISceneChanger* changer, OtherInterface* OI);
@@ -27,6 +27,8 @@ public:
 	void Draw() override;            //描画処理をオーバーライド。
 
 private:
+	void Debug_Update();
+
 	const char* board_filepath = "Assets//manncalaboard.png";
 	const std::string coin_filepath = "Assets//coin";
 	const char* player1_filepath = "Assets//player1.png";
@@ -34,11 +36,14 @@ private:
 	int boardHandle;
 	std::vector<int> coinHandle;
 	int player1Handle, player2Handle;
-	
-	int boardstatus[16]; // 左下赤を0とする
-	VECTOR boarddrawpos[16][4];
-	
+
+	int boardstatus[BOARD_NUM]; // 左下赤を0とする
+	VECTOR(*boarddrawpos)[BOARD_NUM][4];
+
+	// デバッグ変数
 	bool click;
-	std::vector<int> x;
-	std::vector<int> y;
+	int x, y;
+	std::vector<int> x_array;
+	std::vector<int> y_array;
+	std::ofstream logout;
 };
