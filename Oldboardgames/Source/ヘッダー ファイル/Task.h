@@ -1,7 +1,9 @@
 #pragma once
 
-#define SCREEN_SIZEX 1280
-#define SCREEN_SIZEY 720
+#define SCREEN_SIZEX 1920
+#define SCREEN_SIZEY 1080
+
+#define STD_SCREENSIZEX 1920.0 // 基準のグラフィックサイズ幅
 
 class Task
 {

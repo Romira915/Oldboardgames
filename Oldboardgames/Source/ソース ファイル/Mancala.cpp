@@ -26,6 +26,8 @@ void Mancala::Initialize()
 	}
 	boardstatus[7] = 0;
 	boardstatus[15] = 0;
+
+	click = false;
 }
 
 void Mancala::Finalize()
@@ -37,6 +39,7 @@ void Mancala::Finalize()
 	}
 	DeleteGraph(player1Handle);
 	DeleteGraph(player2Handle);
+
 }
 
 void Mancala::Update()
@@ -44,12 +47,25 @@ void Mancala::Update()
 	if (mOtherInterface->KeyDown(KEY_INPUT_ESCAPE))
 	{
 		mSceneChanger->ChangeScene(eScene_Title);
-	}	
+	}
+
+	if (mOtherInterface->KeyDown(KEY_INPUT_R))
+	{
+		click = false;
+	}
+	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0 && click == false)
+	{
+		click = true;
+		//GetMousePoint(&x, &y);
+		printfDx("%d,%d ", x, y);
+	}
 }
 
 void Mancala::Draw()
 {
-	DrawRotaGraph2(0, 0, 0, 0, SCREEN_SIZEX / 1920.0, 0, boardHandle, TRUE, FALSE);
-	DrawRotaGraph2(SCREEN_SIZEX * PLAYER1_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 0, 0, SCREEN_SIZEX / 1920.0, 0, player1Handle, TRUE, FALSE);
-	DrawRotaGraph2(SCREEN_SIZEX * PLAYER2_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 335, 0, SCREEN_SIZEX / 1920.0, 0, player2Handle, TRUE, FALSE);
+	DrawRotaGraph2(0, 0, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, boardHandle, TRUE, FALSE);
+	DrawRotaGraph2(SCREEN_SIZEX * PLAYER1_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, player1Handle, TRUE, FALSE);
+	DrawRotaGraph2(SCREEN_SIZEX * PLAYER2_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 335, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, player2Handle, TRUE, FALSE);
+
+	DrawRotaGraph2(SCREEN_SIZEX * 0.325, SCREEN_SIZEY * 0.3, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.43, 0, coinHandle[GetRand(3)], TRUE, FALSE);
 }

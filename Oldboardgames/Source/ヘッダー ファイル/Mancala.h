@@ -1,7 +1,10 @@
 #pragma once
 #include "BaseScene.h"
+#include "DxLib.h"
 #include <string>
 #include <vector>
+#include <fstream>
+#include <cstdio>
 
 #define COIN_IMGNUM 5 
 
@@ -33,4 +36,9 @@ private:
 	int player1Handle, player2Handle;
 	
 	int boardstatus[16]; // ç∂â∫ê‘Ç0Ç∆Ç∑ÇÈ
+	VECTOR boarddrawpos[16][4];
+	
+	bool click;
+	std::vector<int> x;
+	std::vector<int> y;
 };
