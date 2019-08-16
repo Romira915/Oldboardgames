@@ -17,6 +17,7 @@ public:
 	bool KeyDown(unsigned char key) override;
 	const int* Key_Frame() override;
 
+
 private:
 	int key_frame[256];
 	int key_previous[256];
