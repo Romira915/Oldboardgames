@@ -23,4 +23,6 @@ protected:
 private:
 	bool moving;
 	int dist_x, dist_y, movespeed;
+	int delta_x, delta_y;
+	int maxframe, counter;
 };

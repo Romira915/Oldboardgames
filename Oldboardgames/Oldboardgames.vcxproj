@@ -165,6 +165,7 @@
     <ClCompile Include="Source\ソース ファイル\Other.cpp" />
     <ClCompile Include="Source\ソース ファイル\Main.cpp" />
     <ClCompile Include="Source\ソース ファイル\SceneManager.cpp" />
+    <ClCompile Include="Source\ソース ファイル\Stone.cpp" />
     <ClCompile Include="Source\ソース ファイル\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +176,7 @@
     <ClInclude Include="Source\ヘッダー ファイル\ISceneChanger.h" />
     <ClInclude Include="Source\ヘッダー ファイル\OtherInterface.h" />
     <ClInclude Include="Source\ヘッダー ファイル\SceneManager.h" />
+    <ClInclude Include="Source\ヘッダー ファイル\Stone.h" />
     <ClInclude Include="Source\ヘッダー ファイル\Task.h" />
     <ClInclude Include="Source\ヘッダー ファイル\Title.h" />
   </ItemGroup>
