@@ -35,11 +35,12 @@ void Move::Update()
 			pos.x = dist_x;
 			pos.y = dist_y;
 			moving = false;
+			printfDx("%f,%f", pos.x, pos.y);
 		}
 		else
 		{
-			pos.x += dist_x;
-			pos.y += dist_y;
+			pos.x += delta_x;
+			pos.y += delta_y;
 		}
 		//}
 	}
@@ -58,7 +59,12 @@ void Move::Move_toP(double x, double y, double speed)
 		dist_x = x;
 		dist_y = y;
 		movespeed = speed; // ‘¬“x
-		maxframe = sqrt(fabs(dist_x - pos.x) + fabs(dist_y - pos.y)) / movespeed; // ŽÀŽ¿‚ÌˆÚ“®ŽžŠÔ
+		maxframe = sqrt(pow(dist_x - pos.x,2) + pow(dist_y - pos.y,2)) / movespeed; // ŽÀŽ¿‚ÌˆÚ“®ŽžŠÔ
+		if (maxframe == 0)
+		{
+			moving = false;
+			return;
+		}
 		delta_x = (dist_x - pos.x) / maxframe;
 		delta_y = (dist_y - pos.y) / maxframe;
 	}
