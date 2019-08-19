@@ -40,7 +40,7 @@ private:
 
 	int boardstatus[BOARD_NUM]; // 左下赤を0とする
 	VECTOR coindrawpos[BOARD_NUM][4];
-	Coin coin;
+	Coin coin[COIN_NUM];
 
 	// デバッグ変数
 	bool click;

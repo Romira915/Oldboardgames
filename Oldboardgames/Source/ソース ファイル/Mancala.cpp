@@ -37,7 +37,10 @@ void Mancala::Initialize()
 	boardstatus[7] = 0;
 	boardstatus[15] = 0;
 
-	coin.Initialize();
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		coin[i].Initialize();
+	}
 
 	click = false;
 }
@@ -60,11 +63,18 @@ void Mancala::Update()
 		mSceneChanger->ChangeScene(eScene_Title);
 	}
 	//Debug_Update();
-	if (mOtherInterface->KeyDown(KEY_INPUT_G))
+	
+	for (int i = 0; i < COIN_NUM; i++)
 	{
-		coin.Move_toP(coindrawpos[0][0].x, coindrawpos[0][0].y, 0.02);
+		coin[i].Update();
 	}
-	coin.Update();
+
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		int a = GetRand(BOARD_NUM - 1);
+		int b = GetRand(3);
+		coin[i].Move_toP(coindrawpos[a][b].x, coindrawpos[a][b].y, 0.05);
+	}
 }
 
 void Mancala::Draw()
@@ -73,11 +83,16 @@ void Mancala::Draw()
 	DrawRotaGraph2(SCREEN_SIZEX * PLAYER1_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, player1Handle, TRUE, FALSE);
 	DrawRotaGraph2(SCREEN_SIZEX * PLAYER2_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 335, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, player2Handle, TRUE, FALSE);
 
+	// デバッグ用
 	for (int i = 0; i < x_array.size(); i++)
 	{
 		DrawRotaGraph2(x_array[i], y_array[i], 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.425, 0, coinHandle[0], TRUE, FALSE);
 	}
-	coin.Draw();
+
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		coin[i].Draw();
+	}
 }
 
 void Mancala::Debug_Update()

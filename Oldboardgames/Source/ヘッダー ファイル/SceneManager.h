@@ -3,6 +3,7 @@
 #include "ISceneChanger.h"
 #include "BaseScene.h"
 #include "Other.h"
+#include "FPS.h"
 
 class SceneManager : public ISceneChanger, Task {
 
@@ -10,9 +11,9 @@ private:
 	BaseScene* mScene;    //シーン管理変数
 	eScene mNextScene;    //次のシーン管理変数
 	Other* mOther;
+	FPS fps;
 
 	bool isGameEnd;
-
 public:
 	SceneManager();
 	void Initialize() override;	//初期化

@@ -35,7 +35,6 @@ void Move::Update()
 			pos.x = dist_x;
 			pos.y = dist_y;
 			moving = false;
-			printfDx("%f,%f", pos.x, pos.y);
 		}
 		else
 		{

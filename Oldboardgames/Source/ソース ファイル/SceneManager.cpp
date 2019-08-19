@@ -5,9 +5,10 @@
 
 SceneManager::SceneManager() :
 	mNextScene(eScene_None) //次のシーン管理変数
+	, fps(60, 60)
 {
 	mOther = new Other();
-	mScene = (BaseScene*) new Title(this,mOther);
+	mScene = (BaseScene*) new Title(this, mOther);
 }
 
 //初期化
@@ -15,6 +16,7 @@ void SceneManager::Initialize() {
 	isGameEnd = false;
 	mOther->Initialize();
 	mScene->Initialize();
+	fps.Initialize();
 }
 
 //終了処理
@@ -22,11 +24,13 @@ void SceneManager::Finalize() {
 	mOther->Finalize();
 	delete mOther;
 	mScene->Finalize();
+	fps.Finalize();
 }
 
 //更新
 void SceneManager::Update() {
 	mOther->Update();
+	fps.Update();
 	if (mNextScene != eScene_None) {    //次のシーンがセットされていたら
 		mScene->Finalize();//現在のシーンの終了処理を実行
 		delete mScene;
@@ -47,10 +51,12 @@ void SceneManager::Update() {
 	}
 
 	mScene->Update(); //シーンの更新
+	fps.Wait();
 }
 
 //描画
 void SceneManager::Draw() {
+	fps.Draw();
 	mScene->Draw(); //シーンの描画
 }
 
