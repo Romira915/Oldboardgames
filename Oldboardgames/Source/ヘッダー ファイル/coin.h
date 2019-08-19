@@ -2,11 +2,11 @@
 #include "Move.h"
 #include <string>
 
-class Stone : public Move
+class Coin : public Move
 {
 public:
-	Stone();
-	~Stone();
+	Coin();
+	~Coin();
 
 	void Initialize() override;
 	void Finalize() override;

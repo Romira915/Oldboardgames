@@ -1,8 +1,9 @@
-#include "Stone.h"
+#include "coin.h"
 #include "DxLib.h"
 
 Stone::Stone()
 {
+	
 }
 
 Stone::~Stone()

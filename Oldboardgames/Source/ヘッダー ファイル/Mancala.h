@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "Coin.h"
 
 #define COIN_IMGNUM 5 
 
@@ -38,7 +39,8 @@ private:
 	int player1Handle, player2Handle;
 
 	int boardstatus[BOARD_NUM]; // 左下赤を0とする
-	VECTOR(*boarddrawpos)[BOARD_NUM][4];
+	VECTOR coindrawpos[BOARD_NUM][4];
+	Coin coin;
 
 	// デバッグ変数
 	bool click;

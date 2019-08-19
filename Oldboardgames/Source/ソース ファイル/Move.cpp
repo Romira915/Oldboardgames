@@ -3,6 +3,7 @@
 
 Move::Move()
 {
+	moving = false;
 }
 
 Move::Move(VECTOR inputpos)
@@ -29,17 +30,17 @@ void Move::Update()
 	{
 		/*if (counter < maxframe)
 		{*/
-			if (abs(delta_x) > fabs(dist_x - pos.x))
-			{
-				pos.x = dist_x;
-				pos.y = dist_y;
-				moving = false;
-			}
-			else
-			{
-				pos.x += dist_x;
-				pos.y += dist_y;
-			}
+		if (abs(delta_x) > fabs(dist_x - pos.x))
+		{
+			pos.x = dist_x;
+			pos.y = dist_y;
+			moving = false;
+		}
+		else
+		{
+			pos.x += dist_x;
+			pos.y += dist_y;
+		}
 		//}
 	}
 }
@@ -48,7 +49,7 @@ void Move::Draw()
 {
 }
 
-void Move::Move_toP(int x, int y, int speed)
+void Move::Move_toP(double x, double y, double speed)
 {
 	if (moving == false)
 	{
@@ -57,7 +58,7 @@ void Move::Move_toP(int x, int y, int speed)
 		dist_x = x;
 		dist_y = y;
 		movespeed = speed; // ‘¬“x
-		maxframe = int(sqrt(fabs(dist_x - pos.x) + fabs(dist_y - pos.y)) / movespeed); // ŽÀŽ¿‚ÌˆÚ“®ŽžŠÔ
+		maxframe = sqrt(fabs(dist_x - pos.x) + fabs(dist_y - pos.y)) / movespeed; // ŽÀŽ¿‚ÌˆÚ“®ŽžŠÔ
 		delta_x = (dist_x - pos.x) / maxframe;
 		delta_y = (dist_y - pos.y) / maxframe;
 	}

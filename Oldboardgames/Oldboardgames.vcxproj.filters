@@ -36,7 +36,7 @@
     <ClCompile Include="Source\ソース ファイル\Move.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\Stone.cpp">
+    <ClCompile Include="Source\ソース ファイル\Coin.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClInclude Include="Source\ヘッダー ファイル\Move.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\Stone.h">
+    <ClInclude Include="Source\ヘッダー ファイル\Coin.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
