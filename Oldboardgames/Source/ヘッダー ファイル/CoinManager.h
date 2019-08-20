@@ -17,6 +17,7 @@ public:
 	void Draw() override;		//•`‰æ
 
 private:
+	VECTOR coindrawpos[BOARD_NUM][4];
 	VECTOR coindrawpos5[BOARD_NUM]; // ƒRƒCƒ“‚ª5ŒÂˆÈã‚ÌˆÊ’uî•ñ
 };
 
