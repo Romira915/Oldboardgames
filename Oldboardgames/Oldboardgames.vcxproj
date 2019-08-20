@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ソース ファイル\CoinManager.cpp" />
     <ClCompile Include="Source\ソース ファイル\FPS.cpp" />
     <ClCompile Include="Source\ソース ファイル\Move.cpp" />
     <ClCompile Include="Source\ソース ファイル\BaseScene.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Source\ソース ファイル\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ヘッダー ファイル\CoinManager.h" />
     <ClInclude Include="Source\ヘッダー ファイル\FPS.h" />
     <ClInclude Include="Source\ヘッダー ファイル\Move.h" />
     <ClInclude Include="Source\ヘッダー ファイル\BaseScene.h" />

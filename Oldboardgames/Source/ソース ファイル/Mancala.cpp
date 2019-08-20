@@ -14,10 +14,13 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI) : BaseScene(changer
 			coindrawpos[i][j].y = tmp[i][j].y / STD_SCREENSIZEY;
 		}
 	}
+
+	logout.open("logpos.txt");
 }
 
 Mancala::~Mancala()
 {
+	logout.close();
 }
 
 void Mancala::Initialize()
@@ -36,11 +39,6 @@ void Mancala::Initialize()
 	}
 	boardstatus[7] = 0;
 	boardstatus[15] = 0;
-
-	for (int i = 0; i < COIN_NUM; i++)
-	{
-		coin[i].Initialize();
-	}
 
 	click = false;
 }
@@ -62,19 +60,7 @@ void Mancala::Update()
 	{
 		mSceneChanger->ChangeScene(eScene_Title);
 	}
-	//Debug_Update();
-	
-	for (int i = 0; i < COIN_NUM; i++)
-	{
-		coin[i].Update();
-	}
-
-	for (int i = 0; i < COIN_NUM; i++)
-	{
-		int a = GetRand(BOARD_NUM - 1);
-		int b = GetRand(3);
-		coin[i].Move_toP(coindrawpos[a][b].x, coindrawpos[a][b].y, 0.05);
-	}
+	Debug_Update();	
 }
 
 void Mancala::Draw()
@@ -87,11 +73,6 @@ void Mancala::Draw()
 	for (int i = 0; i < x_array.size(); i++)
 	{
 		DrawRotaGraph2(x_array[i], y_array[i], 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.425, 0, coinHandle[0], TRUE, FALSE);
-	}
-
-	for (int i = 0; i < COIN_NUM; i++)
-	{
-		coin[i].Draw();
 	}
 }
 
@@ -126,7 +107,7 @@ void Mancala::Debug_Update()
 		logout << '{';
 		for (int i = 0; i < x_array.size(); i++)
 		{
-			logout << '{' << x_array[i] << ',' << y_array[i] << ',' << 0 << '}';
+			logout << '{' << x_array[i] << ',' << y_array[i] << ',' << 0 << "},";
 		}
 		logout << '}';
 	}

@@ -7,7 +7,7 @@ class Move : public Task
 public:
 	Move();
 	Move(VECTOR inputpos);
-	virtual ~Move();
+	virtual ~Move() override;
 
 	virtual void Initialize() override;
 	virtual void Finalize() override;
