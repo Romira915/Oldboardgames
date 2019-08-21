@@ -1,14 +1,20 @@
 #pragma once
 #include "Task.h"
-#include "coin.h"
+#include "Coin.h"
+#include "OtherInterface.h"
 #include "DxLib.h"
 
+#define COIN_IMGNUM 5
+
 #define BOARD_NUM 16
+#define COIN_NUM 4 * 7 * 2
+
+#define INIT_SPEED 0.1
 
 class CoinManager : public Task
 {
 public:
-	CoinManager();
+	CoinManager(OtherInterface* OI);
 	~CoinManager();
 
 	void Initialize() override;	//‰Šú‰»
@@ -17,7 +23,13 @@ public:
 	void Draw() override;		//•`‰æ
 
 private:
+	OtherInterface* mOtherInterFace;
+
+	const std::string coin_filepath = "Assets//coin";
+	int coinHandle[COIN_IMGNUM];
 	VECTOR coindrawpos[BOARD_NUM][4];
 	VECTOR coindrawpos5[BOARD_NUM]; // ƒRƒCƒ“‚ª5ŒÂˆÈã‚ÌˆÊ’uî•ñ
-};
+	Coin** coin;
 
+	unsigned char coinmovecounter;
+};

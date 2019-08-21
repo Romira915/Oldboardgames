@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "Coin.h"
+#include "CoinManager.h"
 
 #define COIN_IMGNUM 5 
 
@@ -41,6 +42,7 @@ private:
 	int boardstatus[BOARD_NUM]; // 左下赤を0とする
 	VECTOR coindrawpos[BOARD_NUM][4];
 	Coin coin[COIN_NUM];
+	CoinManager* coinMgr;
 
 	// デバッグ変数
 	bool click;

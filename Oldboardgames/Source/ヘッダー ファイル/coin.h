@@ -6,6 +6,7 @@ class Coin : public Move
 {
 public:
 	Coin();
+	Coin(int Handle);
 	~Coin();
 
 	void Initialize() override;

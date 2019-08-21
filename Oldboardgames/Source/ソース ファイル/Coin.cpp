@@ -3,8 +3,11 @@
 
 Coin::Coin()
 {
-	pos.x = 925 / STD_SCREENSIZEX;
-	pos.y = 492 / STD_SCREENSIZEY;
+}
+
+Coin::Coin(int Handle)
+{
+	coinHandle = Handle;
 }
 
 Coin::~Coin()
@@ -13,11 +16,14 @@ Coin::~Coin()
 
 void Coin::Initialize()
 {
+	pos.x = 925 / STD_SCREENSIZEX;
+	pos.y = 492 / STD_SCREENSIZEY;
 	coinHandle = LoadGraph((coin_filepath + std::to_string(GetRand(3)) + ".png").c_str());
 }
 
 void Coin::Finalize()
 {
+	DeleteGraph(coinHandle);
 }
 
 void Coin::Update()

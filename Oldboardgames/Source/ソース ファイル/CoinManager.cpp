@@ -1,7 +1,9 @@
 #include "CoinManager.h"
 
-CoinManager::CoinManager()
+CoinManager::CoinManager(OtherInterface* OI)
 {
+	mOtherInterFace = OI;
+
 	VECTOR tmp[BOARD_NUM][4] = { {{478,765,0},{490,833,0},{546,767,0},{576,833,0}},{{602,611,0},{681,667,0},{675,598,0},{600,676,0}},{{740,771,0},{823,768,0},{744,840,0},{815,838,0}},{{877,679,0},{960,615,0},{875,609,0},{945,681,0}},{{1012,770,0},{1016,835,0},{1085,763,0},{1090,833,0}},{{1151,605,0},{1153,676,0},{1228,606,0},{1225,677,0} },{{ 1379,771,0 }, { 1295,772,0 }, { 1290,838,0 }, { 1365,838,0 }},{{ 1460,437,0 }, { 1567,571,0 }, { 1568,448,0 }, { 1471,568,0 }},{ { 1303,152,0 }, { 1301,218,0 }, { 1382,224,0 }, { 1381,159,0 }},{ { 1172,320,0 }, { 1177,390,0 }, { 1245,385,0 }, { 1247,321,0 }},{ { 1110,232,0 }, { 1118,163,0 }, { 1036,152,0 }, { 1024,219,0 }},{ {981,316,0 }, { 898,319,0 }, { 905,391,0 }, { 976,386,0 }},{ { 842,166,0 }, { 758,163,0 }, { 768,230,0 }, { 837,229,0 }},{ { 627,316,0 }, { 635,385,0 }, { 705,315,0 }, { 703,384,0 }},{ { 485,155,0 }, { 486,229,0 }, { 558,154,0 }, { 559,226,0 }},{{ 315,417,0 }, { 428,572,0 }, { 422,425,0 }, { 315,593,0 }} };
 	for (int i = 0; i < BOARD_NUM; i++)
 	{
@@ -17,24 +19,113 @@ CoinManager::CoinManager()
 		coindrawpos5[i].x = tmp2[i].x / STD_SCREENSIZEX;
 		coindrawpos5[i].y = tmp2[i].y / STD_SCREENSIZEY;
 	}
+
+	for (int i = 0; i < COIN_IMGNUM; i++)
+	{
+		coinHandle[i] = LoadGraph((coin_filepath + std::to_string(GetRand(COIN_IMGNUM - 1)) + ".png").c_str());
+	}
+
+	coin = new Coin * [COIN_NUM];
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		coin[i] = new Coin(coinHandle[GetRand(COIN_IMGNUM - 1)]);
+	}
 }
 
 CoinManager::~CoinManager()
 {
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		delete coin[i];
+	}
+	delete[] coin;
+
+	for (int i = 0; i < COIN_IMGNUM; i++)
+	{
+		DeleteGraph(coinHandle[i]);
+	}
 }
 
 void CoinManager::Initialize()
 {
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		coin[i]->Initialize();
+	}
+
+	coinmovecounter = 0;
 }
 
 void CoinManager::Finalize()
 {
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		coin[i]->Finalize();
+	}
 }
 
 void CoinManager::Update()
 {
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		coin[i]->Update();
+	}
+	/*for (int i = 0, k = 0; i < BOARD_NUM && coinmovecounter != COIN_NUM; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			if (i != 7 && i != 15)
+			{
+				coin[k]->Move_toP(coindrawpos[i][j].x, coindrawpos[i][j].y, 0.015);
+				k++;
+			}
+		}
+	}*/
+	for (int i = 0; i < COIN_NUM && coinmovecounter != COIN_NUM; i++)
+	{
+		if (coinmovecounter == 0)
+		{
+			coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4][coinmovecounter % 4].y, INIT_SPEED);
+			coinmovecounter++;
+		}
+		if (coinmovecounter > 0 && !coin[coinmovecounter - 1]->Whether_moving())
+		{
+			if (coinmovecounter / 4 >= 7)
+			{
+				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4 + 1][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4 + 1][coinmovecounter % 4].y, INIT_SPEED);
+				coinmovecounter++;
+			}
+			else
+			{
+				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4][coinmovecounter % 4].y, INIT_SPEED);
+				coinmovecounter++;
+			}
+		}
+		if (mOtherInterFace->KeyDown(KEY_INPUT_RETURN))
+		{
+			for (int i = 0, k = 0; i < BOARD_NUM - 1; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					if (i != 7)
+					{
+						if (k >= 0 && k < COIN_NUM)
+						{
+							coin[k]->Move_toP(coindrawpos[i][j].x, coindrawpos[i][j].y, INIT_SPEED);
+							k++;
+						}
+					}
+				}
+			}
+			coinmovecounter = COIN_NUM;
+		}
+	}
 }
 
 void CoinManager::Draw()
 {
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		coin[i]->Draw();
+	}
 }
