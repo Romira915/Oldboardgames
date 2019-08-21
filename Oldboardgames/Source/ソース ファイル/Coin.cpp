@@ -35,3 +35,15 @@ void Coin::Draw()
 {
 	DrawRotaGraph2(pos.x * SCREEN_SIZEX, pos.y * SCREEN_SIZEY, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.425, 0, coinHandle, TRUE, FALSE);
 }
+
+void Coin::Set_postype(unsigned char type)
+{
+	if (type >= 0)
+	{
+
+	}
+}
+
+void Coin::Get_postype(unsigned char type)
+{
+}

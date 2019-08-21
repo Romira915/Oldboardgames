@@ -70,17 +70,6 @@ void CoinManager::Update()
 	{
 		coin[i]->Update();
 	}
-	/*for (int i = 0, k = 0; i < BOARD_NUM && coinmovecounter != COIN_NUM; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			if (i != 7 && i != 15)
-			{
-				coin[k]->Move_toP(coindrawpos[i][j].x, coindrawpos[i][j].y, 0.015);
-				k++;
-			}
-		}
-	}*/
 	for (int i = 0; i < COIN_NUM && coinmovecounter != COIN_NUM; i++)
 	{
 		if (coinmovecounter == 0)

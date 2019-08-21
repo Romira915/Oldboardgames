@@ -9,7 +9,7 @@
 #define BOARD_NUM 16
 #define COIN_NUM 4 * 7 * 2
 
-#define INIT_SPEED 0.1
+#define INIT_SPEED 0.075
 
 class CoinManager : public Task
 {

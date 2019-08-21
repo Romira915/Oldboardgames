@@ -14,7 +14,12 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void Set_postype(unsigned char type);
+	void Get_postype(unsigned char type);
+
 private:
 	const std::string coin_filepath = "Assets//coin";
 	int coinHandle;
+
+	unsigned char postype;
 };
