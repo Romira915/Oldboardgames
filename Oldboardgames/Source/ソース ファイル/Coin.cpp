@@ -4,7 +4,7 @@
 Coin::Coin(int Handle)
 {
 	coinHandle = Handle;
-	postype = 0;
+	postype = -1;
 }
 
 Coin::~Coin()
@@ -46,7 +46,7 @@ void Coin::Set_postype(unsigned char set)
 	}
 }
 
-unsigned char Coin::Get_postype()
+int Coin::Get_postype()
 {
 	return postype;
 }

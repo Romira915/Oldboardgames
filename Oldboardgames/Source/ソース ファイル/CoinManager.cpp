@@ -70,6 +70,19 @@ void CoinManager::Update()
 	{
 		coin[i]->Update();
 	}
+	// ボード上の穴別のコインの数を取得
+	for (int i = 0; i < BOARD_NUM; i++)
+	{
+		boardstatus[i] = 0;
+		for (int j = 0; j < COIN_NUM; j++)
+		{
+			if (i == coin[j]->Get_postype())
+			{
+				boardstatus[i]++;
+			}
+		}
+	}
+	// 初期状態へ移動
 	for (int i = 0; i < COIN_NUM && coinmovecounter != COIN_NUM; i++)
 	{
 		if (coinmovecounter == 0 || (coinmovecounter > 0 && !coin[coinmovecounter - 1]->Whether_moving()))
@@ -107,6 +120,33 @@ void CoinManager::Update()
 			coinmovecounter = COIN_NUM;
 		}
 	}
+	// postypeの位置へ移動
+	for (int i = 0; i < BOARD_NUM && coinmovecounter == COIN_NUM; i++)
+	{
+		if (boardstatus[i] <= 4)
+		{
+			for (int j = 0, num = 0; j < COIN_NUM; j++)
+			{
+				if (i == coin[j]->Get_postype())
+				{
+					coin[j]->Move_toP(coindrawpos[i][num].x, coindrawpos[i][num].y, SPEED);
+					coin[j]->Set_postype(i);
+					num++;
+				}
+			}
+		}
+		else
+		{
+			for (int j = 0; j < COIN_NUM; j++)
+			{
+				if (i == coin[j]->Get_postype())
+				{
+					coin[j]->Move_toP(coindrawpos5[i].x, coindrawpos5[i].y, SPEED);
+					coin[j]->Set_postype(i);
+				}
+			}
+		}
+	}
 }
 
 void CoinManager::Draw()
@@ -115,4 +155,33 @@ void CoinManager::Draw()
 	{
 		coin[i]->Draw();
 	}
+}
+
+void CoinManager::SelectHole(int hole)
+{
+	for (int i = 0, holenum = hole + 1; i < COIN_NUM; i++)
+	{
+		if (coin[i]->Get_postype() == hole)
+		{
+			coin[i]->Set_postype(holenum);
+			holenum++;
+		}
+	}
+}
+
+int CoinManager::Get_boardstatus(int sub)
+{
+	return boardstatus[sub];
+}
+
+bool CoinManager::All_Rest()
+{
+	for (int i = 0; i < COIN_NUM; i++)
+	{
+		if (coin[i]->Whether_moving())
+		{
+			return false;
+		}
+	}
+	return true;
 }

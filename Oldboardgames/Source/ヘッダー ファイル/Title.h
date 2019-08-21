@@ -2,8 +2,6 @@
 #include "BaseScene.h"
 #include "DxLib.h"
 
-
-
 typedef enum {
 	ePvP,
 	eExit,

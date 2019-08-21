@@ -2,8 +2,6 @@
 #include "Task.h"
 #include <string>
 
-
-
 class FPS : public Task
 {
 public:

@@ -28,8 +28,6 @@ void Move::Update()
 {
 	if (moving)
 	{
-		/*if (counter < maxframe)
-		{*/
 		if (abs(delta_x) > fabs(dist_x - pos.x))
 		{
 			pos.x = dist_x;
@@ -41,7 +39,6 @@ void Move::Update()
 			pos.x += delta_x;
 			pos.y += delta_y;
 		}
-		//}
 	}
 }
 
@@ -49,9 +46,9 @@ void Move::Draw()
 {
 }
 
-void Move::Move_toP(double x, double y, double speed)
+void Move::Move_toP(float x, float y, float speed)
 {
-	if (moving == false)
+	if (moving == false && pos.x != x && pos.y != x)
 	{
 		moving = true;
 		counter = 0;
@@ -59,11 +56,6 @@ void Move::Move_toP(double x, double y, double speed)
 		dist_y = y;
 		movespeed = speed; // ‘¬“x
 		maxframe = sqrt(pow(dist_x - pos.x,2) + pow(dist_y - pos.y,2)) / movespeed; // ŽÀŽ¿‚ÌˆÚ“®ŽžŠÔ
-		if (maxframe == 0)
-		{
-			moving = false;
-			return;
-		}
 		delta_x = (dist_x - pos.x) / maxframe;
 		delta_y = (dist_y - pos.y) / maxframe;
 	}

@@ -14,7 +14,7 @@ public:
 	virtual void Update() override;   
 	virtual void Draw() override;
 
-	void Move_toP(double x, double y, double speed);
+	void Move_toP(float x, float y, float speed);
 	bool Whether_moving();
 
 protected:
@@ -22,7 +22,7 @@ protected:
 
 private:
 	bool moving;
-	double dist_x, dist_y, movespeed;
-	double delta_x, delta_y;
-	double maxframe, counter;
+	float dist_x, dist_y, movespeed;
+	float delta_x, delta_y;
+	float maxframe, counter;
 };
