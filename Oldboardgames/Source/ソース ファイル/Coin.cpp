@@ -1,13 +1,10 @@
 #include "Coin.h"
 #include "DxLib.h"
 
-Coin::Coin()
-{
-}
-
 Coin::Coin(int Handle)
 {
 	coinHandle = Handle;
+	postype = 0;
 }
 
 Coin::~Coin()
@@ -36,14 +33,20 @@ void Coin::Draw()
 	DrawRotaGraph2(pos.x * SCREEN_SIZEX, pos.y * SCREEN_SIZEY, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.425, 0, coinHandle, TRUE, FALSE);
 }
 
-void Coin::Set_postype(unsigned char type)
+void Coin::Set_postype(unsigned char set)
 {
-	if (type >= 0)
+	if (set >= 0 && set < BOARD_NUM)
 	{
-
+		postype = set;
+	}
+	else
+	{
+		DxLib_End();
+		exit(-1);
 	}
 }
 
-void Coin::Get_postype(unsigned char type)
+unsigned char Coin::Get_postype()
 {
+	return postype;
 }

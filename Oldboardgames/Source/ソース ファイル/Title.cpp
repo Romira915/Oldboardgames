@@ -43,7 +43,7 @@ void Title::Update()
 		cursorXY.y = SCREEN_SIZEY * (PVP_Y + 0.015); 
 		if (mOtherInterface->KeyDown(KEY_INPUT_RETURN))
 		{
-			mSceneChanger->ChangeScene(eScene_Game);
+			mSceneChanger->ChangeScene(eScene_MancalaPvP);
 		}
 		break;
 	case eExit: 

@@ -38,7 +38,7 @@ void SceneManager::Update() {
 		case eScene_Title:        //次の画面がメニューなら
 			mScene = (BaseScene*) new Title(this, mOther);   //メニュー画面のインスタンスを生成する
 			break;//以下略
-		case eScene_Game:
+		case eScene_MancalaPvP:
 			mScene = (BaseScene*) new Mancala(this, mOther);
 			break;
 		case eScene_End:

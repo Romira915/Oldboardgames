@@ -7,16 +7,6 @@
 #include "Coin.h"
 #include "CoinManager.h"
 
-#define COIN_IMGNUM 5 
-
-#define PLAYER1_IMGX 0.04
-#define PLAYER2_IMGX 0.96
-#define PLAYER12_IMGY 0.03
-
-#define COIN_NUM 14 * 4
-#define BOARD_NUM 16
-
-
 class Mancala : public BaseScene
 {
 public:
@@ -41,7 +31,7 @@ private:
 
 	int boardstatus[BOARD_NUM]; // 左下赤を0とする
 	VECTOR coindrawpos[BOARD_NUM][4];
-	Coin coin[COIN_NUM];
+	//Coin coin[COIN_NUM];
 	CoinManager* coinMgr;
 
 	// デバッグ変数

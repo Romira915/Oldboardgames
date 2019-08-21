@@ -1,7 +1,7 @@
 #pragma once
 typedef enum {
 	eScene_Title,    //タイトル画面
-	eScene_Game,    //ゲーム画面
+	eScene_MancalaPvP,    //ゲーム画面
 
 	eScene_End,		//ゲーム終了
 

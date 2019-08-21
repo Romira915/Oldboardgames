@@ -4,12 +4,7 @@
 #include "OtherInterface.h"
 #include "DxLib.h"
 
-#define COIN_IMGNUM 5
 
-#define BOARD_NUM 16
-#define COIN_NUM 4 * 7 * 2
-
-#define INIT_SPEED 0.075
 
 class CoinManager : public Task
 {
@@ -21,6 +16,7 @@ public:
 	void Finalize() override;	//I—¹ˆ—
 	void Update() override;		//XV
 	void Draw() override;		//•`‰æ
+
 
 private:
 	OtherInterface* mOtherInterFace;

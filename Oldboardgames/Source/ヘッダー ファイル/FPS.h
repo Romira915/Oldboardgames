@@ -2,7 +2,7 @@
 #include "Task.h"
 #include <string>
 
-#define FONTSIZE 40 / STD_SCREENSIZEX
+
 
 class FPS : public Task
 {

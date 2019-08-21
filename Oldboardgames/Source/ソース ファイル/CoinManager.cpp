@@ -72,21 +72,18 @@ void CoinManager::Update()
 	}
 	for (int i = 0; i < COIN_NUM && coinmovecounter != COIN_NUM; i++)
 	{
-		if (coinmovecounter == 0)
-		{
-			coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4][coinmovecounter % 4].y, INIT_SPEED);
-			coinmovecounter++;
-		}
-		if (coinmovecounter > 0 && !coin[coinmovecounter - 1]->Whether_moving())
+		if (coinmovecounter == 0 || (coinmovecounter > 0 && !coin[coinmovecounter - 1]->Whether_moving()))
 		{
 			if (coinmovecounter / 4 >= 7)
 			{
 				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4 + 1][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4 + 1][coinmovecounter % 4].y, INIT_SPEED);
+				coin[coinmovecounter]->Set_postype(coinmovecounter / 4 + 1);
 				coinmovecounter++;
 			}
 			else
 			{
 				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4][coinmovecounter % 4].y, INIT_SPEED);
+				coin[coinmovecounter]->Set_postype(coinmovecounter / 4);
 				coinmovecounter++;
 			}
 		}
@@ -101,6 +98,7 @@ void CoinManager::Update()
 						if (k >= 0 && k < COIN_NUM)
 						{
 							coin[k]->Move_toP(coindrawpos[i][j].x, coindrawpos[i][j].y, INIT_SPEED);
+							coin[k]->Set_postype(i);
 							k++;
 						}
 					}

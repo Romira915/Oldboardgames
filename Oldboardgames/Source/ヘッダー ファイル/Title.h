@@ -2,15 +2,7 @@
 #include "BaseScene.h"
 #include "DxLib.h"
 
-#define TITLE_X 0.5
-#define TITLE_Y 0.15
-#define PVP_X 0.5
-#define PVP_Y 0.6
-#define EXIT_X 0.5
-#define EXIT_Y 0.75
 
-#define CURSOR_PVP_X (SCREEN_SIZEX * PVP_X - (825 / 2.0 + 97) * SCREEN_SIZEX / STD_SCREENSIZEX)
-#define CURSOR_EXIT_X (SCREEN_SIZEX * EXIT_X - (177 / 2.0 + 97) * SCREEN_SIZEX / STD_SCREENSIZEX)
 
 typedef enum {
 	ePvP,
