@@ -23,6 +23,7 @@ private:
 	OtherInterface* mOtherInterFace;
 
 	const std::string coin_filepath = "Assets//coin";
+	int coinnumfontHandle;
 	int coinHandle[COIN_IMGNUM];
 	VECTOR coindrawpos[BOARD_NUM][4]; // コインが４個以下の位置情報
 	VECTOR coindrawpos5[BOARD_NUM]; // コインが5個以上の位置情報

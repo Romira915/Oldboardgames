@@ -22,16 +22,17 @@ private:
 	void Debug_Update();
 
 	const char* board_filepath = "Assets//manncalaboard.png";
+	const char* boardselect_filepath = "Assets//manncalaboard";
 	const std::string coin_filepath = "Assets//coin";
 	const char* player1_filepath = "Assets//player1.png";
 	const char* player2_filepath = "Assets//player2.png";
 	int boardHandle;
+	int boardselectHandle[BOARD_NUM];
 	std::vector<int> coinHandle;
 	int player1Handle, player2Handle;
+	int player;
+	int player1select, player2select;
 
-	int boardstatus[BOARD_NUM]; // 左下赤を0とする
-	VECTOR coindrawpos[BOARD_NUM][4];
-	//Coin coin[COIN_NUM];
 	CoinManager* coinMgr;
 
 	// デバッグ変数

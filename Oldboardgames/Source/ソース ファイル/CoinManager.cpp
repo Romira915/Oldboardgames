@@ -30,6 +30,8 @@ CoinManager::CoinManager(OtherInterface* OI)
 	{
 		coin[i] = new Coin(coinHandle[GetRand(COIN_IMGNUM - 1)]);
 	}
+
+	coinnumfontHandle = CreateFontToHandle(NULL, COINFONTSIZE * SCREEN_SIZEX, -1, DX_FONTTYPE_EDGE);
 }
 
 CoinManager::~CoinManager()
@@ -154,6 +156,13 @@ void CoinManager::Draw()
 	for (int i = 0; i < COIN_NUM; i++)
 	{
 		coin[i]->Draw();
+	}
+	for (int i = 0; i < BOARD_NUM; i++)
+	{
+		if (boardstatus[i] >= 5)
+		{
+			DrawFormatStringToHandle(coindrawpos5[i].x * SCREEN_SIZEX + 150 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.425, coindrawpos5[i].y * SCREEN_SIZEY, GetColor(0, 128, 0), coinnumfontHandle, "Å~%d", boardstatus[i]);
+		}
 	}
 }
 

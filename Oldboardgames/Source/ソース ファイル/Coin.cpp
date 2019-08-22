@@ -35,15 +35,7 @@ void Coin::Draw()
 
 void Coin::Set_postype(unsigned char set)
 {
-	if (set >= 0 && set < BOARD_NUM)
-	{
-		postype = set;
-	}
-	else
-	{
-		DxLib_End();
-		exit(-1);
-	}
+	postype = set % BOARD_NUM;
 }
 
 int Coin::Get_postype()
