@@ -125,6 +125,10 @@ void CoinManager::Update()
 	// postypeÇÃà íuÇ÷à⁄ìÆ
 	for (int i = 0; i < BOARD_NUM && coinmovecounter == COIN_NUM; i++)
 	{
+		if (!All_Rest())
+		{
+			break;
+		}
 		if (boardstatus[i] <= 4)
 		{
 			for (int j = 0, num = 0; j < COIN_NUM; j++)
@@ -159,7 +163,7 @@ void CoinManager::Draw()
 	}
 	for (int i = 0; i < BOARD_NUM; i++)
 	{
-		if (boardstatus[i] >= 5)
+		if (boardstatus[i] >= 5 && All_Rest())
 		{
 			DrawFormatStringToHandle(coindrawpos5[i].x * SCREEN_SIZEX + 150 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.425, coindrawpos5[i].y * SCREEN_SIZEY, GetColor(0, 128, 0), coinnumfontHandle, "Å~%d", boardstatus[i]);
 		}

@@ -52,6 +52,7 @@ void Mancala::Finalize()
 
 void Mancala::Update()
 {
+	//clsDx();
 	if (mOtherInterface->KeyDown(KEY_INPUT_ESCAPE))
 	{
 		mSceneChanger->ChangeScene(eScene_Title);
@@ -74,8 +75,11 @@ void Mancala::Update()
 			}
 			else if (mOtherInterface->KeyDown(KEY_INPUT_RETURN) && coinMgr->Get_boardstatus(player1select))
 			{
+				if ((player1select + coinMgr->Get_boardstatus(player1select)) % 8 != 7)
+				{
+					player = (player + 1) % 2;
+				}
 				coinMgr->SelectHole(player1select);
-				player = (player + 1) % 2;
 			}
 		}
 		else if (player == 1)
@@ -90,11 +94,16 @@ void Mancala::Update()
 			}
 			else if (mOtherInterface->KeyDown(KEY_INPUT_RETURN) && coinMgr->Get_boardstatus(player2select))
 			{
+				if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
+				{
+					player = (player + 1) % 2;
+				}
 				coinMgr->SelectHole(player2select);
-				player = (player + 1) % 2;
 			}
 		}
 	}
+	/*printfDx("%d %d\n", player1select, coinMgr->Get_boardstatus(player1select));
+	printfDx("%d %d\n", player2select, coinMgr->Get_boardstatus(player2select));*/
 }
 
 void Mancala::Draw()

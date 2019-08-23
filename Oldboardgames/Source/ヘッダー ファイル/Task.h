@@ -14,7 +14,7 @@
 #define BOARD_NUM 16
 
 #define INIT_SPEED 0.075
-#define SPEED 0.01
+#define SPEED 0.03
 
 #define COINFONTSIZE 54 / STD_SCREENSIZEX
 // マンカラPvPシーン　ここまで
