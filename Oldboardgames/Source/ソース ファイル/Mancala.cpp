@@ -84,6 +84,11 @@ void Mancala::Update()
 		}
 		else if (player == 1)
 		{
+			CPU();
+			if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
+			{
+				player = (player + 1) % 2;
+			}
 			if (mOtherInterface->KeyDown(KEY_INPUT_LEFT))
 			{
 				player2select = (player2select - 8 + 1) % 7 + 8;
@@ -102,8 +107,6 @@ void Mancala::Update()
 			}
 		}
 	}
-	/*printfDx("%d %d\n", player1select, coinMgr->Get_boardstatus(player1select));
-	printfDx("%d %d\n", player2select, coinMgr->Get_boardstatus(player2select));*/
 }
 
 void Mancala::Draw()
@@ -127,6 +130,45 @@ void Mancala::Draw()
 	}*/
 
 	coinMgr->Draw();
+}
+
+void Mancala::CPU()
+{
+	for (int i = BOARD_NUM - 2; i >= BOARD_NUM / 2; i--)
+	{
+		if ((i + coinMgr->Get_boardstatus(i)) % 8 == 7)
+		{
+			coinMgr->SelectHole(i);
+			player2select = i;
+			return;
+		}
+	}
+	for (int i = BOARD_NUM / 2; i < BOARD_NUM - 1; i++)
+	{
+		if ((i + coinMgr->Get_boardstatus(i) + 1) % 8 == 7)
+		{
+			for (int j = i - 1; j > 7; j--)
+			{
+				if (j + coinMgr->Get_boardstatus(j) == i)
+				{
+					coinMgr->SelectHole(j);
+					player2select = j;
+					return;
+				}
+			}
+		}
+	}
+	int r;
+	while (true)
+	{
+		r = GetRand(6) + 8;
+		if (coinMgr->Get_boardstatus(r) > 0)
+		{
+			break;
+		}
+	}
+	coinMgr->SelectHole(r);
+	player2select = r;
 }
 
 void Mancala::Debug_Update()

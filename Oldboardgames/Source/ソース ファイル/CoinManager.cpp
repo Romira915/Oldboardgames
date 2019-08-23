@@ -89,16 +89,16 @@ void CoinManager::Update()
 	{
 		if (coinmovecounter == 0 || (coinmovecounter > 0 && !coin[coinmovecounter - 1]->Whether_moving()))
 		{
-			if (coinmovecounter / 4 >= 7)
+			if (coinmovecounter / ONEHOLE_COIN >= 7)
 			{
-				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4 + 1][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4 + 1][coinmovecounter % 4].y, INIT_SPEED);
-				coin[coinmovecounter]->Set_postype(coinmovecounter / 4 + 1);
+				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / ONEHOLE_COIN + 1][coinmovecounter % ONEHOLE_COIN].x, coindrawpos[coinmovecounter / ONEHOLE_COIN + 1][coinmovecounter % ONEHOLE_COIN].y, INIT_SPEED);
+				coin[coinmovecounter]->Set_postype(coinmovecounter / ONEHOLE_COIN + 1);
 				coinmovecounter++;
 			}
 			else
 			{
-				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / 4][coinmovecounter % 4].x, coindrawpos[coinmovecounter / 4][coinmovecounter % 4].y, INIT_SPEED);
-				coin[coinmovecounter]->Set_postype(coinmovecounter / 4);
+				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / ONEHOLE_COIN][coinmovecounter % ONEHOLE_COIN].x, coindrawpos[coinmovecounter / ONEHOLE_COIN][coinmovecounter % ONEHOLE_COIN].y, INIT_SPEED);
+				coin[coinmovecounter]->Set_postype(coinmovecounter / ONEHOLE_COIN);
 				coinmovecounter++;
 			}
 		}
@@ -106,7 +106,7 @@ void CoinManager::Update()
 		{
 			for (int i = 0, k = 0; i < BOARD_NUM - 1; i++)
 			{
-				for (int j = 0; j < 4; j++)
+				for (int j = 0; j < ONEHOLE_COIN; j++)
 				{
 					if (i != 7)
 					{

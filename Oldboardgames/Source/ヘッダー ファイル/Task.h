@@ -10,8 +10,9 @@
 // マンカラPvPシーン関係
 #define COIN_IMGNUM 5
 
-#define COIN_NUM 4 * 7 * 2
+#define ONEHOLE_COIN 4
 #define BOARD_NUM 16
+#define COIN_NUM ONEHOLE_COIN * (BOARD_NUM - 2)
 
 #define INIT_SPEED 0.075
 #define SPEED 0.03

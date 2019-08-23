@@ -19,6 +19,7 @@ public:
 	void Draw() override;            //描画処理をオーバーライド。
 
 private:
+	void CPU();
 	void Debug_Update();
 
 	const char* board_filepath = "Assets//manncalaboard.png";
