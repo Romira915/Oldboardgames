@@ -91,13 +91,13 @@ void CoinManager::Update()
 		{
 			if (coinmovecounter / ONEHOLE_COIN >= 7)
 			{
-				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / ONEHOLE_COIN + 1][coinmovecounter % ONEHOLE_COIN].x, coindrawpos[coinmovecounter / ONEHOLE_COIN + 1][coinmovecounter % ONEHOLE_COIN].y, INIT_SPEED);
+				coin[coinmovecounter]->Move_toP(coindrawpos[(coinmovecounter / ONEHOLE_COIN + 1) % BOARD_NUM][coinmovecounter % ONEHOLE_COIN % 4].x, coindrawpos[(coinmovecounter / ONEHOLE_COIN + 1) % BOARD_NUM][coinmovecounter % ONEHOLE_COIN % 4].y, INIT_SPEED);
 				coin[coinmovecounter]->Set_postype(coinmovecounter / ONEHOLE_COIN + 1);
 				coinmovecounter++;
 			}
 			else
 			{
-				coin[coinmovecounter]->Move_toP(coindrawpos[coinmovecounter / ONEHOLE_COIN][coinmovecounter % ONEHOLE_COIN].x, coindrawpos[coinmovecounter / ONEHOLE_COIN][coinmovecounter % ONEHOLE_COIN].y, INIT_SPEED);
+				coin[coinmovecounter]->Move_toP(coindrawpos[(coinmovecounter / ONEHOLE_COIN) % BOARD_NUM][coinmovecounter % ONEHOLE_COIN % 4].x, coindrawpos[(coinmovecounter / ONEHOLE_COIN) % BOARD_NUM][coinmovecounter % ONEHOLE_COIN % 4].y, INIT_SPEED);
 				coin[coinmovecounter]->Set_postype(coinmovecounter / ONEHOLE_COIN);
 				coinmovecounter++;
 			}
@@ -112,7 +112,7 @@ void CoinManager::Update()
 					{
 						if (k >= 0 && k < COIN_NUM)
 						{
-							coin[k]->Move_toP(coindrawpos[i][j].x, coindrawpos[i][j].y, INIT_SPEED);
+							coin[k]->Move_toP(coindrawpos[i][j % 4].x, coindrawpos[i][j % 4].y, INIT_SPEED);
 							coin[k]->Set_postype(i);
 							k++;
 						}
