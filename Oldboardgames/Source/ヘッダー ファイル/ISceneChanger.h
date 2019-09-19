@@ -2,6 +2,7 @@
 typedef enum {
 	eScene_Title,    //タイトル画面
 	eScene_MancalaPvP,    //ゲーム画面
+	eScene_MancalaOnline, //オンライン対戦画面
 
 	eScene_End,		//ゲーム終了
 

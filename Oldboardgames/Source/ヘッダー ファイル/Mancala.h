@@ -1,4 +1,6 @@
 #pragma once
+#define _WINSOCK2API_
+#include <WinSock2.h>
 #include "BaseScene.h"
 #include "DxLib.h"
 #include <string>
@@ -35,6 +37,11 @@ private:
 	int player1select, player2select;
 
 	CoinManager* coinMgr;
+
+	//開発中
+	void net();
+	WSADATA wsaData;
+	SOCKET sock;
 
 	// デバッグ変数
 	bool click;

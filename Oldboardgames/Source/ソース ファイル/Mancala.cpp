@@ -1,3 +1,7 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+#include <stdio.h>
+#include <Winsock2.h>
+
 #include "Mancala.h"
 #include "DxLib.h"
 
@@ -7,11 +11,41 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI) : BaseScene(changer
 	coinMgr = new CoinManager(OI);
 
 	logout.open("logpos.txt");
+
+	net();
+
+	/*switch (WSAStartup(MAKEWORD(2, 0), &wsaData))
+	{
+	case WSASYSNOTREADY:
+		printfDx("WSASYSNOTREADY\n");
+		break;
+	case WSAVERNOTSUPPORTED:
+		printfDx("WSAVERNOTSUPPORTED\n");
+		break;
+	case WSAEINPROGRESS:
+		printfDx("WSAEINPROGRESS\n");
+		break;
+	case WSAEPROCLIM:
+		printfDx("WSAEPROCLIM\n");
+		break;
+	case WSAEFAULT:
+		printfDx("WSAEFAULT\n");
+		break;
+	default:
+		break;
+	}
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock == INVALID_SOCKET) {
+		printfDx("socket failed\n");
+		printfDx("errorcode:%d", WSAGetLastError());
+	}*/
 }
 
 Mancala::~Mancala()
 {
 	logout.close();
+
+	WSACleanup();
 }
 
 void Mancala::Initialize()
@@ -106,6 +140,10 @@ void Mancala::Update()
 				coinMgr->SelectHole(player2select);
 			}
 		}
+	}
+
+	if (mOtherInterface->KeyDown(KEY_INPUT_N))
+	{
 	}
 }
 
@@ -206,4 +244,35 @@ void Mancala::Debug_Update()
 		}
 		logout << '}';
 	}
+}
+
+void Mancala::net()
+{
+	WSADATA wsaData;
+	struct sockaddr_in server;
+	SOCKET sock;
+	char buf[32];
+
+	// winsock2の初期化
+	WSAStartup(MAKEWORD(2, 0), &wsaData);
+
+	// ソケットの作成
+	sock = socket(AF_INET, SOCK_STREAM, 0);
+
+	// 接続先指定用構造体の準備
+	server.sin_family = AF_INET;
+	server.sin_port = htons(59150);
+	server.sin_addr.S_un.S_addr = inet_addr("192.168.15.2");
+
+	// サーバに接続
+	connect(sock, (struct sockaddr*) & server, sizeof(server));
+
+	// サーバからデータを受信
+	memset(buf, 0, sizeof(buf));
+	int n = recv(sock, buf, sizeof(buf), 0);
+
+	printf("%d, %s\n", n, buf);
+
+	// winsock2の終了処理
+	WSACleanup();
 }
