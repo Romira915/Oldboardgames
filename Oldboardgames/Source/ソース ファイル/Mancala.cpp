@@ -62,7 +62,7 @@ void Mancala::Update()
 	//Debug_Update();
 	if (mOtherInterface->KeyDown(KEY_INPUT_G))
 	{
-		coin.Move_toP(coindrawpos[0][0].x, coindrawpos[0][0].y, 0.02);
+		coin.Move_toP(coindrawpos[0][0].x, coindrawpos[0][0].y, 1);
 	}
 	coin.Update();
 }
