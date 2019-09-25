@@ -149,7 +149,6 @@ void Mancala::Update()
 
 	if (mOtherInterface->KeyDown(KEY_INPUT_N))
 	{
-		tcp.client_init();
 		tcp.client_connect("192.168.15.7");
 	}
 	if (mOtherInterface->KeyDown(KEY_INPUT_M))

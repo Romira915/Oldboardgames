@@ -17,22 +17,24 @@ public:
 	void Update();   
 	void Draw();   
 
-	int client_init();
-	int client_connect(const char* ip);
+	void client_connect(const char* ip);
 	void client_close();
 	std::string client_receive();
 
 private:
+	void client_connect_onthread(const char* ip);
+
 	WSADATA wsaData;
 
 	// client•Ï”
+	std::thread client_th;
 	sockaddr_in server;
 	SOCKET server_sock;
 	char buf[32];
 	// 0 –¢Ú‘±
 	// 1 Ú‘±’†
 	int serverconnect_status;
-	std::mutex mtx;
+	std::mutex mtx_serverconnect_status;
 
 	std::string str_receive;
 };
