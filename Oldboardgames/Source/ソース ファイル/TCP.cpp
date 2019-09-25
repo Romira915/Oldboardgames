@@ -4,9 +4,7 @@
 
 TCP::TCP()
 {
-	serverconnecting = false;
-	tv.tv_sec = 0;
-	tv.tv_usec = 0;
+	serverconnect_status = false;
 }
 
 TCP::~TCP()
@@ -15,56 +13,14 @@ TCP::~TCP()
 
 void TCP::Initialize()
 {
-
 }
 
 void TCP::Finalize()
 {
-
 }
 
 void TCP::Update()
 {
-	if (serverconnecting)
-	{
-		memset(buf, 0, sizeof(buf));
-		int n = recv(server_sock, buf, sizeof(buf), 0);
-		if (n < 1) {
-			if (WSAGetLastError() == WSAEWOULDBLOCK) {
-				//まだ来ない。
-				printfDx("MADA KONAI\n");
-			}
-			else {
-				//printfDx("error : 0x%x\n", WSAGetLastError());
-			}
-		}
-		else {
-			printfDx("received data\n");
-			printfDx("%s\n", buf);
-		}
-
-		// 読み込み用fd_setの初期化
-		// selectが毎回内容を上書きしてしまうので、毎回初期化します
-		memcpy(&fds, &readfds, sizeof(fd_set));
-
-		// fdsに設定されたソケットが読み込み可能になるまで待ちます
-		select(0, &fds, NULL, NULL, &tv);
-
-		// sock1に読み込み可能データがある場合
-		if (FD_ISSET(server_sock, &fds)) {
-			// sock1からデータを受信して表示します
-			memset(buf, 0, sizeof(buf));
-			//recv(server_sock, buf, sizeof(buf), 0);
-			printfDx("%s\n", buf);
-			serverconnecting = true;
-		}
-		else
-		{
-			printfDx("nodate");
-		}
-	}
-
-
 }
 
 void TCP::Draw()
@@ -74,6 +30,13 @@ void TCP::Draw()
 
 int TCP::client_init()
 {
+	return 0;
+}
+
+int TCP::client_connect(const char* ip)
+{
+	unsigned int** addrptr;
+
 	if (WSAStartup(MAKEWORD(2, 0), &wsaData) != 0) {
 		printfDx("WSAStartup failed\n");
 	}
@@ -85,23 +48,8 @@ int TCP::client_init()
 
 	server.sin_family = AF_INET;
 	server.sin_port = htons(59150);
-
-	// fd_setの初期化します
-	FD_ZERO(&readfds);
-	FD_SET(server_sock, &readfds);
-
-	// ノンブロッキングモード
-	u_long val = 1;
-	ioctlsocket(server_sock, FIONBIO, &val);
-
-	return 0;
-}
-
-int TCP::client_connect(const char* ip)
-{
-	unsigned int** addrptr;
-
 	server.sin_addr.S_un.S_addr = inet_addr(ip);
+
 	if (server.sin_addr.S_un.S_addr == 0xffffffff) {
 		struct hostent* host;
 
@@ -139,11 +87,12 @@ int TCP::client_connect(const char* ip)
 		// connectが失敗したらエラーを表示して終了
 		if (connect(server_sock, (struct sockaddr*) & server, sizeof(server)) != 0) {
 			printfDx("connect : %d\n", WSAGetLastError());
-			serverconnecting = true;
 			return -1;
 		}
 		else
 		{
+			std::lock_guard<std::mutex> lock(mtx);
+			serverconnect_status = 1;
 		}
 	}
 
@@ -153,7 +102,7 @@ int TCP::client_connect(const char* ip)
 void TCP::client_close()
 {
 	closesocket(server_sock);
-	serverconnecting = false;
+	serverconnect_status = false;
 	WSACleanup();
 }
 

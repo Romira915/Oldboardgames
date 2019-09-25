@@ -4,6 +4,8 @@
 #include <WinSock2.h>
 #include <Task.h>
 #include <string>
+#include <mutex>
+#include <thread>
 
 class TCP : public Task
 {
@@ -27,9 +29,10 @@ private:
 	sockaddr_in server;
 	SOCKET server_sock;
 	char buf[32];
-	bool serverconnecting;
-	timeval tv;
-	fd_set fds, readfds;
+	// 0 –¢Ú‘±
+	// 1 Ú‘±’†
+	int serverconnect_status;
+	std::mutex mtx;
 
 	std::string str_receive;
 };
