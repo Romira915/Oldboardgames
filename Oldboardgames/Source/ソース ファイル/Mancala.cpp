@@ -12,7 +12,7 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI) : BaseScene(changer
 
 	logout.open("logpos.txt");
 
-	net();
+	//net();
 
 	/*switch (WSAStartup(MAKEWORD(2, 0), &wsaData))
 	{
@@ -69,6 +69,8 @@ void Mancala::Initialize()
 	player2select = 8;
 
 	click = false;
+
+	tcp.Initialize();
 }
 
 void Mancala::Finalize()
@@ -82,6 +84,8 @@ void Mancala::Finalize()
 	DeleteGraph(player2Handle);
 
 	coinMgr->Finalize();
+
+	tcp.Finalize();
 }
 
 void Mancala::Update()
@@ -118,11 +122,12 @@ void Mancala::Update()
 		}
 		else if (player == 1)
 		{
-			CPU();
+			/*CPU();
 			if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
 			{
 				player = (player + 1) % 2;
-			}
+			}*/
+
 			if (mOtherInterface->KeyDown(KEY_INPUT_LEFT))
 			{
 				player2select = (player2select - 8 + 1) % 7 + 8;
@@ -144,7 +149,15 @@ void Mancala::Update()
 
 	if (mOtherInterface->KeyDown(KEY_INPUT_N))
 	{
+		tcp.client_init();
+		tcp.client_connect("192.168.15.7");
 	}
+	if (mOtherInterface->KeyDown(KEY_INPUT_M))
+	{
+		tcp.client_close();
+	}
+
+	tcp.Update();
 }
 
 void Mancala::Draw()
@@ -168,6 +181,8 @@ void Mancala::Draw()
 	}*/
 
 	coinMgr->Draw();
+
+	tcp.Draw();
 }
 
 void Mancala::CPU()
@@ -262,7 +277,7 @@ void Mancala::net()
 	// 接続先指定用構造体の準備
 	server.sin_family = AF_INET;
 	server.sin_port = htons(59150);
-	server.sin_addr.S_un.S_addr = inet_addr("192.168.15.2");
+	server.sin_addr.S_un.S_addr = inet_addr("192.168.15.7");
 
 	// サーバに接続
 	connect(sock, (struct sockaddr*) & server, sizeof(server));
@@ -271,7 +286,7 @@ void Mancala::net()
 	memset(buf, 0, sizeof(buf));
 	int n = recv(sock, buf, sizeof(buf), 0);
 
-	printf("%d, %s\n", n, buf);
+	printfDx("%d, %s\n", n, buf);
 
 	// winsock2の終了処理
 	WSACleanup();

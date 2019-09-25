@@ -40,6 +40,10 @@
 #define CURSOR_EXIT_X (SCREEN_SIZEX * EXIT_X - (177 / 2.0 + 97) * SCREEN_SIZEX / STD_SCREENSIZEX)
 // タイトルシーン　ここまで
 
+// TCPクラス
+#define SERVER_IP "192.168.15.7"
+// TCPクラス　ここまで
+
 class Task
 {
 public:
