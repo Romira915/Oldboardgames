@@ -4,11 +4,17 @@
 
 TCP::TCP()
 {
-	serverconnect_status = false;
+	if (WSAStartup(MAKEWORD(2, 0), &wsaData) != 0) {
+		printfDx("WSAStartup failed\n");
+	}
+
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eClosed;
 }
 
 TCP::~TCP()
 {
+	WSACleanup();
 }
 
 void TCP::Initialize()
@@ -17,6 +23,10 @@ void TCP::Initialize()
 
 void TCP::Finalize()
 {
+	for (std::thread& th : th) {
+		th.join();
+	}
+	th.clear();
 }
 
 void TCP::Update()
@@ -28,38 +38,72 @@ void TCP::Draw()
 
 }
 
-void TCP::client_connect(const char* ip)
+void TCP::Client_connect(const char* ip)
 {
-	client_th = std::thread(&TCP::client_connect_onthread, this, ip);
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eConnecting;
+	th.push_back(std::thread(&TCP::Client_connect_onthread, this, ip));
 }
 
-void TCP::client_close()
+void TCP::Client_close()
 {
 	closesocket(server_sock);
-	serverconnect_status = false;
-	WSACleanup();
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eClosed;
 }
 
-std::string TCP::client_receive()
+void TCP::Client_receive()
 {
-	memset(buf, 0, sizeof(buf));
-	int n = recv(server_sock, buf, sizeof(buf), 0);
-	if (n < 0) {
-		printfDx("recv : %d\n", WSAGetLastError());
-		return std::string("error");
+	if (tcp_status == eConnected)
+	{
+		std::lock_guard<std::mutex> lock(mtx_tcp_status);
+		tcp_status = eReceiving;
+		th.push_back(std::thread(&TCP::Client_receive_onthread, this));
 	}
-
-	printfDx("%d, %s\n", n, buf);
-	return std::string("recv");
 }
 
-void TCP::client_connect_onthread(const char* ip)
+void TCP::Server_listen()
+{
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eConnecting;
+	th.push_back(std::thread(&TCP::Server_listen_onthread, this));
+}
+
+void TCP::Server_close()
+{
+	closesocket(client_sock);
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eClosed;
+}
+
+void TCP::Server_receive()
+{
+}
+
+std::string TCP::Get_message_string()
+{
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eConnected;
+	std::lock_guard<std::mutex> lock2(mtx_str_receive);
+	return str_receive;
+}
+
+eTCPstatus TCP::Get_TCPstatus()
+{
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	return tcp_status;
+}
+
+void TCP::Clear_TCPstatus()
+{
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eNone;
+}
+
+void TCP::Client_connect_onthread(const char* ip)
 {
 	unsigned int** addrptr;
-
-	if (WSAStartup(MAKEWORD(2, 0), &wsaData) != 0) {
-		printfDx("WSAStartup failed\n");
-	}
+	
 	server_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (server_sock == INVALID_SOCKET) {
 		printfDx("socket : %d\n", WSAGetLastError());
@@ -112,10 +156,61 @@ void TCP::client_connect_onthread(const char* ip)
 		else
 		{
 			printfDx("on connect");
-			std::lock_guard<std::mutex> lock(mtx_serverconnect_status);
-			serverconnect_status = 1;
+			mtx_tcp_status.lock();
+			tcp_status = eConnected;
+			mtx_tcp_status.unlock();
+
+			TCP::Client_receive_onthread();
 		}
 	}
 
 	return;
+}
+
+void TCP::Client_receive_onthread()
+{
+	memset(buf, 0, sizeof(buf));
+	int n = recv(server_sock, buf, sizeof(buf), 0);
+	if (n < 0) {
+		printfDx("recv : %d\n", WSAGetLastError());
+		return;
+	}
+
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eReceived;
+	std::lock_guard<std::mutex> lock2(mtx_str_receive);
+	str_receive = std::string(buf);
+
+	printfDx("%d, %s\n", n, buf);
+}
+
+void TCP::Server_listen_onthread()
+{
+	bind_sock = socket(AF_INET, SOCK_STREAM, 0);
+	if (bind_sock == INVALID_SOCKET) {
+		printfDx("socket : %d\n", WSAGetLastError());
+		return;
+	}
+
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(59150);
+	addr.sin_addr.S_un.S_addr = INADDR_ANY;
+
+	setsockopt(bind_sock, SOL_SOCKET, SO_REUSEADDR, (const char*)& yes, sizeof(yes));
+
+	bind(bind_sock, (struct sockaddr*) & addr, sizeof(addr));
+
+	listen(bind_sock, 5);
+
+	len = sizeof(client);
+	client_sock = accept(bind_sock, (struct sockaddr*)& client, &len);
+	mtx_tcp_status.lock();
+	tcp_status = eConnected;
+	mtx_tcp_status.unlock();
+
+	send(client_sock, "p2p", 3, 0);
+}
+
+void TCP::Server_receive_onthread()
+{
 }

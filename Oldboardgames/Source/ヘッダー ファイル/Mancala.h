@@ -13,7 +13,7 @@
 class Mancala : public BaseScene
 {
 public:
-	Mancala(ISceneChanger* changer, OtherInterface* OI);
+	Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode);
 	~Mancala();
 
 	void Initialize() override;    //初期化処理をオーバーライド。
@@ -24,6 +24,8 @@ public:
 private:
 	void CPU();
 	void Debug_Update();
+
+	eMancalaMode gamemode; // 0...PvP, 1...vsCPU, 2...Online
 
 	const char* board_filepath = "Assets//manncalaboard.png";
 	const char* boardselect_filepath = "Assets//manncalaboard";

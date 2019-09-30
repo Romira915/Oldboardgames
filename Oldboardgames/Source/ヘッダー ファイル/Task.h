@@ -32,16 +32,30 @@
 #define TITLE_X 0.5
 #define TITLE_Y 0.15
 #define PVP_X 0.5
-#define PVP_Y 0.6
+#define PVP_Y 0.45
+#define CPU_X 0.5
+#define CPU_Y 0.55
+#define ONLINE_X 0.5
+#define ONLINE_Y 0.65
 #define EXIT_X 0.5
 #define EXIT_Y 0.75
 
 #define CURSOR_PVP_X (SCREEN_SIZEX * PVP_X - (825 / 2.0 + 97) * SCREEN_SIZEX / STD_SCREENSIZEX)
+#define CURSOR_CPU_X (SCREEN_SIZEX * CPU_X - (362 / 2.0 + 97) * SCREEN_SIZEX / STD_SCREENSIZEX)
+#define CURSOR_ONLINE_X (SCREEN_SIZEX * ONLINE_X - (329 / 2.0 + 97) * SCREEN_SIZEX / STD_SCREENSIZEX)
 #define CURSOR_EXIT_X (SCREEN_SIZEX * EXIT_X - (177 / 2.0 + 97) * SCREEN_SIZEX / STD_SCREENSIZEX)
 // タイトルシーン　ここまで
 
 // TCPクラス
 #define SERVER_IP "192.168.15.7"
+typedef enum {
+	eConnected,
+	eConnecting,
+	eClosed,
+	eReceived,
+	eReceiving,
+	eNone,
+} eTCPstatus;
 // TCPクラス　ここまで
 
 class Task

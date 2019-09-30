@@ -30,7 +30,7 @@ int main()
 	while (1) {
 		len1 = sizeof(client1);
 		sock1 = accept(sock0, (struct sockaddr*) & client1, &len1);
-		send(sock1, "0", 1, 0);
+		send(sock1, "server", 6, 0);
 
 		closesocket(sock1);
 

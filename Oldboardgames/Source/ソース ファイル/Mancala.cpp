@@ -5,10 +5,15 @@
 #include "Mancala.h"
 #include "DxLib.h"
 
-Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI) : BaseScene(changer, OI)
+Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) : BaseScene(changer, OI)
 {
 	coinHandle.resize(4);
 	coinMgr = new CoinManager(OI);
+	gamemode = mode;
+	if (gamemode == eOnline)
+	{
+		tcp.Client_connect("127.0.0.1");
+	}
 
 	logout.open("logpos.txt");
 
@@ -98,6 +103,20 @@ void Mancala::Update()
 	//Debug_Update();	
 
 	coinMgr->Update();
+	tcp.Update();
+
+	if (tcp.Get_TCPstatus() == eReceived)
+	{
+		std::string tcpmessage = tcp.Get_message_string();
+		if (tcpmessage == "server")
+		{
+			tcp.Server_listen();
+		}
+		else
+		{
+			tcp.Client_connect(tcpmessage.c_str());
+		}
+	}
 
 	if (coinMgr->All_Rest())
 	{
@@ -122,41 +141,51 @@ void Mancala::Update()
 		}
 		else if (player == 1)
 		{
-			/*CPU();
-			if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
+			switch (gamemode)
 			{
-				player = (player + 1) % 2;
-			}*/
-
-			if (mOtherInterface->KeyDown(KEY_INPUT_LEFT))
-			{
-				player2select = (player2select - 8 + 1) % 7 + 8;
-			}
-			else if (mOtherInterface->KeyDown(KEY_INPUT_RIGHT))
-			{
-				player2select = (player2select - 8 + 7 - 1) % 7 + 8;
-			}
-			else if (mOtherInterface->KeyDown(KEY_INPUT_RETURN) && coinMgr->Get_boardstatus(player2select))
-			{
+			case ePvP:
+				if (mOtherInterface->KeyDown(KEY_INPUT_LEFT))
+				{
+					player2select = (player2select - 8 + 1) % 7 + 8;
+				}
+				else if (mOtherInterface->KeyDown(KEY_INPUT_RIGHT))
+				{
+					player2select = (player2select - 8 + 7 - 1) % 7 + 8;
+				}
+				else if (mOtherInterface->KeyDown(KEY_INPUT_RETURN) && coinMgr->Get_boardstatus(player2select))
+				{
+					if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
+					{
+						player = (player + 1) % 2;
+					}
+					coinMgr->SelectHole(player2select);
+				}
+				break;
+			case eCPU:
+				CPU();
 				if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
 				{
 					player = (player + 1) % 2;
 				}
-				coinMgr->SelectHole(player2select);
+				break;
+			case eOnline:
+				break;
+			default:
+				break;
 			}
+
 		}
 	}
 
 	if (mOtherInterface->KeyDown(KEY_INPUT_N))
 	{
-		tcp.client_connect("192.168.15.7");
+		tcp.Client_connect("127.0.0.1");
 	}
 	if (mOtherInterface->KeyDown(KEY_INPUT_M))
 	{
-		tcp.client_close();
+		tcp.Client_close();
 	}
 
-	tcp.Update();
 }
 
 void Mancala::Draw()

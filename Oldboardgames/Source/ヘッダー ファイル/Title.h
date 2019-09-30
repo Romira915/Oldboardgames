@@ -2,13 +2,6 @@
 #include "BaseScene.h"
 #include "DxLib.h"
 
-typedef enum {
-	ePvP,
-	eExit,
-
-	Max
-}eSelect;
-
 class Title : public BaseScene
 {
 public:
@@ -22,11 +15,13 @@ public:
 private:
 	const char* title_filepath = "Assets//Title_image.png";
 	const char* pvp_filepath = "Assets//select_PvP.png";
+	const char* cpu_filepath = "Assets//vsCPU.png";
+	const char* Online_filepath = "Assets//Online.png";
 	const char* cursor_filepath = "Assets//cursor.png";
 	const char* exit_filepath = "Assets//Exit_image.png";
-	int titleHandle, pvpHandle, cursorHandle, exitHandle;
+	int titleHandle, pvpHandle, cpuHandle, onlineHandle, cursorHandle, exitHandle;
 
 	VECTOR cursorXY;
-	eSelect eNowCursor;
+	eMancalaMode eNowCursor;
 };
 

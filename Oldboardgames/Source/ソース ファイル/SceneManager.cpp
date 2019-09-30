@@ -39,7 +39,13 @@ void SceneManager::Update() {
 			mScene = (BaseScene*) new Title(this, mOther);   //メニュー画面のインスタンスを生成する
 			break;//以下略
 		case eScene_MancalaPvP:
-			mScene = (BaseScene*) new Mancala(this, mOther);
+			mScene = (BaseScene*) new Mancala(this, mOther, ePvP);
+			break;
+		case eScene_MancalaCPU:
+			mScene = (BaseScene*) new Mancala(this, mOther, eCPU);
+			break;
+		case eScene_MancalaOnline:
+			mScene = (BaseScene*) new Mancala(this, mOther, eOnline);
 			break;
 		case eScene_End:
 			isGameEnd = true;
