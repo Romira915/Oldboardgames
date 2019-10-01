@@ -202,6 +202,7 @@ void TCP::Server_listen_onthread()
 
 	listen(bind_sock, 5);
 
+	printfDx("listen‚·‚é€”õ‚ğ‚·‚é‚æ");
 	len = sizeof(client);
 	client_sock = accept(bind_sock, (struct sockaddr*)& client, &len);
 	mtx_tcp_status.lock();

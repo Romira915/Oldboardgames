@@ -110,11 +110,14 @@ void Mancala::Update()
 		std::string tcpmessage = tcp.Get_message_string();
 		if (tcpmessage == "server")
 		{
+			tcp.Client_close();
+			printfDx("listen");
 			tcp.Server_listen();
 		}
 		else
 		{
-			printfDx("%s‚ðŽó‚¯Žæ‚Á‚½", tcpmessage.c_str());
+			tcp.Client_close();
+			printfDx("%s‚ðŽó‚¯Žæ‚Á‚½\n", tcpmessage.c_str());
 			tcp.Client_connect(tcpmessage.c_str());
 		}
 	}
