@@ -207,6 +207,7 @@ void TCP::Server_listen_onthread()
 	mtx_tcp_status.lock();
 	tcp_status = eConnected;
 	mtx_tcp_status.unlock();
+	printfDx("accept");
 
 	send(client_sock, "p2p", 3, 0);
 }

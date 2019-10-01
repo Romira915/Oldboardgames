@@ -12,7 +12,7 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	gamemode = mode;
 	if (gamemode == eOnline)
 	{
-		tcp.Client_connect("127.0.0.1");
+		tcp.Client_connect(SERVER_IP);
 	}
 
 	logout.open("logpos.txt");
@@ -114,6 +114,7 @@ void Mancala::Update()
 		}
 		else
 		{
+			printfDx("%s‚ðŽó‚¯Žæ‚Á‚½", tcpmessage.c_str());
 			tcp.Client_connect(tcpmessage.c_str());
 		}
 	}
