@@ -18,24 +18,28 @@ public:
 	void Update();
 	void Draw();
 
-	void Client_connect(const char* ip);
+	void Client_connect(const char* ip, const int port = 59150);
 	void Client_close();
 	void Client_receive();
+	void Client_send(const char* message);
 
-	void Server_listen();
+	void Server_listen(const int port = 59150);
 	void Server_close();
 	void Server_receive();
+	void Server_send(const char* message);
 
 	std::string Get_message_string();
 	eTCPstatus Get_TCPstatus();
 	void Clear_TCPstatus();
 
 private:
-	void Client_connect_onthread(const char* ip);
+	void Client_connect_onthread(const char* ip, const int port);
 	void Client_receive_onthread();
+	void Client_send_onthread(const char* message);
 
-	void Server_listen_onthread();
+	void Server_listen_onthread(const int port);
 	void Server_receive_onthread();
+	void Server_send_onthread(const char* message);
 
 	WSADATA wsaData;
 	std::vector<std::thread> th;

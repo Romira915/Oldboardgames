@@ -38,11 +38,11 @@ void TCP::Draw()
 
 }
 
-void TCP::Client_connect(const char* ip)
+void TCP::Client_connect(const char* ip, const int port)
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eConnecting;
-	th.push_back(std::thread(&TCP::Client_connect_onthread, this, ip));
+	th.push_back(std::thread(&TCP::Client_connect_onthread, this, ip, port));
 }
 
 void TCP::Client_close()
@@ -62,11 +62,19 @@ void TCP::Client_receive()
 	}
 }
 
-void TCP::Server_listen()
+void TCP::Client_send(const char* message)
+{
+	if (tcp_status == eConnected)
+	{
+		th.push_back(std::thread(&TCP::Client_send_onthread, this));
+	}
+}
+
+void TCP::Server_listen(const int port)
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eConnecting;
-	th.push_back(std::thread(&TCP::Server_listen_onthread, this));
+	th.push_back(std::thread(&TCP::Server_listen_onthread, this, port));
 }
 
 void TCP::Server_close()
@@ -78,6 +86,20 @@ void TCP::Server_close()
 
 void TCP::Server_receive()
 {
+	if (tcp_status == eConnected)
+	{
+		std::lock_guard<std::mutex> lock(mtx_tcp_status);
+		tcp_status = eReceiving;
+		th.push_back(std::thread(&TCP::Server_receive_onthread, this));
+	}
+}
+
+void TCP::Server_send(const char* message)
+{
+	if (tcp_status == eConnected)
+	{
+		th.push_back(std::thread(&TCP::Server_send_onthread, this));
+	}
 }
 
 std::string TCP::Get_message_string()
@@ -100,10 +122,11 @@ void TCP::Clear_TCPstatus()
 	tcp_status = eNone;
 }
 
-void TCP::Client_connect_onthread(const char* ip)
+void TCP::Client_connect_onthread(const char* ip, const int port)
 {
+	printfDx("connectするよ\n");
 	unsigned int** addrptr;
-	
+
 	server_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (server_sock == INVALID_SOCKET) {
 		printfDx("socket : %d\n", WSAGetLastError());
@@ -111,7 +134,7 @@ void TCP::Client_connect_onthread(const char* ip)
 	}
 
 	server.sin_family = AF_INET;
-	server.sin_port = htons(59150);
+	server.sin_port = htons(port);
 	server.sin_addr.S_un.S_addr = inet_addr(ip);
 
 	if (server.sin_addr.S_un.S_addr == 0xffffffff) {
@@ -148,6 +171,7 @@ void TCP::Client_connect_onthread(const char* ip)
 	else {
 		// inet_addr()が成功したとき
 
+		printfDx("connectするよ２\n");
 		// connectが失敗したらエラーを表示して終了
 		if (connect(server_sock, (struct sockaddr*) & server, sizeof(server)) != 0) {
 			printfDx("connect : %d\n", WSAGetLastError());
@@ -155,7 +179,7 @@ void TCP::Client_connect_onthread(const char* ip)
 		}
 		else
 		{
-			printfDx("on connect");
+			printfDx("on connect\n");
 			mtx_tcp_status.lock();
 			tcp_status = eConnected;
 			mtx_tcp_status.unlock();
@@ -184,7 +208,12 @@ void TCP::Client_receive_onthread()
 	printfDx("%d, %s\n", n, buf);
 }
 
-void TCP::Server_listen_onthread()
+void TCP::Client_send_onthread(const char* message)
+{
+	send(server_sock, message, strlen(message), 0);
+}
+
+void TCP::Server_listen_onthread(const int port)
 {
 	bind_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (bind_sock == INVALID_SOCKET) {
@@ -193,7 +222,7 @@ void TCP::Server_listen_onthread()
 	}
 
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(59150);
+	addr.sin_port = htons(port);
 	addr.sin_addr.S_un.S_addr = INADDR_ANY;
 
 	setsockopt(bind_sock, SOL_SOCKET, SO_REUSEADDR, (const char*)& yes, sizeof(yes));
@@ -202,17 +231,41 @@ void TCP::Server_listen_onthread()
 
 	listen(bind_sock, 5);
 
-	printfDx("listenする準備をするよ");
+	printfDx("listenする準備をするよ\n");
 	len = sizeof(client);
-	client_sock = accept(bind_sock, (struct sockaddr*)& client, &len);
+	client_sock = accept(bind_sock, (struct sockaddr*) & client, &len);
 	mtx_tcp_status.lock();
 	tcp_status = eConnected;
 	mtx_tcp_status.unlock();
-	printfDx("accept");
+	printfDx("accept\n");
 
 	send(client_sock, "p2p", 3, 0);
+	printfDx("send\n");
+	
+	mtx_tcp_status.lock();
+	tcp_status = eReceiving;
+	mtx_tcp_status.unlock();
+	TCP::Server_receive_onthread();
 }
 
 void TCP::Server_receive_onthread()
 {
+	memset(buf, 0, sizeof(buf));
+	int n = recv(client_sock, buf, sizeof(buf), 0);
+	if (n < 0) {
+		printfDx("recv : %d\n", WSAGetLastError());
+		return;
+	}
+
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	tcp_status = eReceived;
+	std::lock_guard<std::mutex> lock2(mtx_str_receive);
+	str_receive = std::string(buf);
+
+	printfDx("%d, %s\n", n, buf);
+}
+
+void TCP::Server_send_onthread(const char* message)
+{
+	send(server_sock, message, strlen(message), 0);
 }

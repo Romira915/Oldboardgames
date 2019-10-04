@@ -10,6 +10,11 @@
 #include "CoinManager.h"
 #include "TCP.h"
 
+typedef enum {
+	eServer,
+	eClient
+} TCPmode;
+
 class Mancala : public BaseScene
 {
 public:
@@ -40,6 +45,9 @@ private:
 	int player1select, player2select;
 
 	CoinManager* coinMgr;
+
+	std::string tcp_message;
+
 
 	//ŠJ”­’†
 	void net();

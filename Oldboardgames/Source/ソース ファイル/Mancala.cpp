@@ -10,10 +10,12 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	coinHandle.resize(4);
 	coinMgr = new CoinManager(OI);
 	gamemode = mode;
+	tcp_message = "null";
 	if (gamemode == eOnline)
 	{
 		tcp.Client_connect(SERVER_IP);
 	}
+	tcp_mode = eServer;
 
 	logout.open("logpos.txt");
 
@@ -49,8 +51,6 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 Mancala::~Mancala()
 {
 	logout.close();
-
-	WSACleanup();
 }
 
 void Mancala::Initialize()
@@ -107,18 +107,24 @@ void Mancala::Update()
 
 	if (tcp.Get_TCPstatus() == eReceived)
 	{
-		std::string tcpmessage = tcp.Get_message_string();
-		if (tcpmessage == "server")
+		tcp_message = tcp.Get_message_string();
+		if (tcp_message == "server")
 		{
+			player = 1;
 			tcp.Client_close();
-			printfDx("listen");
-			tcp.Server_listen();
+			printfDx("listen\n");
+			tcp.Server_listen(60000);
+			tcp_mode = eServer;
+			tcp_message = "null";
 		}
-		else
+		else if (tcp_message.find("192") == 0)
 		{
+			player = 0;
 			tcp.Client_close();
-			printfDx("%s‚ðŽó‚¯Žæ‚Á‚½\n", tcpmessage.c_str());
-			tcp.Client_connect(tcpmessage.c_str());
+			printfDx("%s‚ðŽó‚¯Žæ‚Á‚½\n", tcp_message.c_str());
+			tcp.Client_connect(tcp_message.c_str(), 60000);
+			tcp_mode = eClient;
+			tcp_message = "null";
 		}
 	}
 
@@ -141,6 +147,17 @@ void Mancala::Update()
 					player = (player + 1) % 2;
 				}
 				coinMgr->SelectHole(player1select);
+				if (tcp_mode == eServer)
+				{
+
+					tcp.Server_send(std::to_string(player1select + 8).c_str());
+					tcp.Server_receive();
+				}
+				else if (tcp_mode == eClient)
+				{
+					tcp.Client_send(std::to_string(player1select + 8).c_str());
+					tcp.Client_receive();
+				}
 			}
 		}
 		else if (player == 1)
@@ -173,6 +190,11 @@ void Mancala::Update()
 				}
 				break;
 			case eOnline:
+				if (tcp_message != "null")
+				{
+					int select = stoi(tcp_message);
+					coinMgr->SelectHole(select);
+				}
 				break;
 			default:
 				break;
@@ -180,16 +202,6 @@ void Mancala::Update()
 
 		}
 	}
-
-	if (mOtherInterface->KeyDown(KEY_INPUT_N))
-	{
-		tcp.Client_connect("127.0.0.1");
-	}
-	if (mOtherInterface->KeyDown(KEY_INPUT_M))
-	{
-		tcp.Client_close();
-	}
-
 }
 
 void Mancala::Draw()
