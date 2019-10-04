@@ -115,7 +115,6 @@ void Mancala::Update()
 			printfDx("listen\n");
 			tcp.Server_listen(60000);
 			tcp_mode = eServer;
-			tcp_message = "null";
 		}
 		else if (tcp_message.find("192") == 0)
 		{
@@ -124,7 +123,6 @@ void Mancala::Update()
 			printfDx("%s‚ðŽó‚¯Žæ‚Á‚½\n", tcp_message.c_str());
 			tcp.Client_connect(tcp_message.c_str(), 60000);
 			tcp_mode = eClient;
-			tcp_message = "null";
 		}
 	}
 
@@ -190,12 +188,14 @@ void Mancala::Update()
 				}
 				break;
 			case eOnline:
-				if (tcp_message != "null")
+			{
+				int select = std::stoi(tcp_message);
+				if (select >= 0 && select <= 6)
 				{
-					int select = stoi(tcp_message);
 					coinMgr->SelectHole(select);
 				}
-				break;
+			}
+			break;
 			default:
 				break;
 			}
