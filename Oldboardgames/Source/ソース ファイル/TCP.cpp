@@ -66,7 +66,7 @@ void TCP::Client_send(const char* message)
 {
 	if (tcp_status == eConnected)
 	{
-		th.push_back(std::thread(&TCP::Client_send_onthread, this));
+		th.push_back(std::thread(&TCP::Client_send_onthread, this, message));
 	}
 }
 
@@ -98,7 +98,7 @@ void TCP::Server_send(const char* message)
 {
 	if (tcp_status == eConnected)
 	{
-		th.push_back(std::thread(&TCP::Server_send_onthread, this));
+		th.push_back(std::thread(&TCP::Server_send_onthread, this, message));
 	}
 }
 
@@ -241,7 +241,7 @@ void TCP::Server_listen_onthread(const int port)
 
 	send(client_sock, "p2p", 3, 0);
 	printfDx("send\n");
-	
+
 	mtx_tcp_status.lock();
 	tcp_status = eReceiving;
 	mtx_tcp_status.unlock();

@@ -47,7 +47,7 @@ private:
 	CoinManager* coinMgr;
 
 	std::string tcp_message;
-
+	TCPmode tcp_mode;
 
 	//ŠJ”­’†
 	void net();
