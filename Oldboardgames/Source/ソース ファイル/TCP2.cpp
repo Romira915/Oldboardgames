@@ -9,8 +9,8 @@ TCP2::TCP2()
 		printfDx("WSAStartup failed\n");
 	}
 
-	tv.tv_sec = 1;
-	tv.tv_usec = 0;
+	tv.tv_sec = 0;
+	tv.tv_usec = 10000;
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eClosed;
 	tcp_th = std::thread(&TCP2::TCP_onthread, this);
