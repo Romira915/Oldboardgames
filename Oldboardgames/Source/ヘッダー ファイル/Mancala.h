@@ -10,11 +10,6 @@
 #include "CoinManager.h"
 #include "TCP.h"
 
-typedef enum {
-	eServer,
-	eClient
-} TCPmode;
-
 class Mancala : public BaseScene
 {
 public:
@@ -47,7 +42,7 @@ private:
 	CoinManager* coinMgr;
 
 	std::string tcp_message;
-	TCPmode tcp_mode;
+	eTCPmode tcp_mode;
 
 	//ŠJ”­’†
 	void net();
