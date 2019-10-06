@@ -213,14 +213,21 @@ void Mancala::Update()
 			{
 				if (tcp_mode != eNone)
 				{
-					int select = std::stoi(tcp_message);
-					if (select >= 0 && select <= 6)
+					try
 					{
-						if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
+						int select = stoi(tcp_message);
+						if (select >= 0 && select <= 6)
 						{
-							player = (player + 1) % 2;
+							if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
+							{
+								player = (player + 1) % 2;
+							}
+							coinMgr->SelectHole(select);
 						}
-						coinMgr->SelectHole(select);
+					}
+					catch (const std::exception& error)
+					{
+
 					}
 				}
 			}

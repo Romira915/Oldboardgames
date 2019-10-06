@@ -1,4 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "TCP2.h"
+#include "errno.h"
 #include "DxLib.h"
 
 TCP2::TCP2()
@@ -7,8 +9,8 @@ TCP2::TCP2()
 		printfDx("WSAStartup failed\n");
 	}
 
-	tv.tv_sec = 0;
-	tv.tv_usec = 10000;
+	tv.tv_sec = 1;
+	tv.tv_usec = 0;
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eClosed;
 	tcp_th = std::thread(&TCP2::TCP_onthread, this);
@@ -214,12 +216,14 @@ void TCP2::TCP_onthread()
 				len = sizeof(client);
 				while (tcp_status != eRequestClosing)
 				{
+					printfDx("accept‘Ò‚¿\n");
 					memcpy(&fds, &readfds, sizeof(fd_set));
 
 					select(0, &fds, NULL, NULL, &tv);
 					if (FD_ISSET(bind_sock, &fds))
 					{
 						client_sock = accept(bind_sock, (struct sockaddr*) & client, &len);
+						break;
 					}
 				}
 				if (tcp_status == eRequestClosing)
