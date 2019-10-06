@@ -49,7 +49,7 @@ private:
 	void net();
 	WSADATA wsaData;
 	SOCKET sock;
-	TCP tcp;
+	//TCP tcp;
 
 	TCP2 tcp2;
 

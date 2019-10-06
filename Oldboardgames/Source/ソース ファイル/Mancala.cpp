@@ -13,7 +13,7 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	tcp_message = "null";
 	if (gamemode == eOnline)
 	{
-		tcp.Client_connect(SERVER_IP);
+		//tcp.Client_connect(SERVER_IP);
 	}
 	tcp_mode = eNone;
 
@@ -77,7 +77,11 @@ void Mancala::Initialize()
 
 	//tcp.Initialize();
 	tcp2.Initialize();
-	tcp2.Client_connect(std::string(SERVER_IP));
+	if (gamemode == eOnline)
+	{
+		//tcp.Client_connect(SERVER_IP);
+		tcp2.Client_connect(std::string(SERVER_IP));
+	}
 }
 
 void Mancala::Finalize()
@@ -145,7 +149,7 @@ void Mancala::Update()
 		else if (tcp_message.find("192") == 0)
 		{
 			player = 0;
-			printfDx("Ç±Ç±Ç…ì¸Ç¡ÇƒÇÈÅH");
+			printfDx("Ç±Ç±Ç…ì¸Ç¡ÇƒÇÈÅH\n");
 			tcp2.Client_connect(tcp_message, 60000);
 			tcp_mode = eClient;
 		}

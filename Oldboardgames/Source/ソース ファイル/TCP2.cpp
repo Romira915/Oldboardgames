@@ -26,8 +26,9 @@ void TCP2::Initialize()
 
 void TCP2::Finalize()
 {
-	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	mtx_tcp_status.lock();
 	tcp_status = eFinalize;
+	mtx_tcp_status.unlock();
 	tcp_th.join();
 }
 
@@ -99,9 +100,6 @@ void TCP2::TCP_onthread()
 		{
 		case eRequestConnecting:
 		{
-			closesocket(server_sock);
-			closesocket(client_sock);
-
 			if (eTCP_mode == eClient)
 			{
 				mtx_tcp_status.lock();
@@ -244,6 +242,7 @@ void TCP2::TCP_onthread()
 
 			if (select(0, &fds, NULL, NULL, &tv) != 0)
 			{
+				printfDx("select\n");
 				SOCKET sock = 0;
 
 				if (eTCP_mode == eClient)
@@ -275,7 +274,7 @@ void TCP2::TCP_onthread()
 					std::lock_guard<std::mutex> lock2(mtx_message);
 					message = std::string(buf);
 
-					printfDx("%d, %s\n", n, buf);
+					printfDx("%d, %s, eConnected“à\n", n, buf);
 				}
 			}
 		}
