@@ -47,7 +47,7 @@
 // タイトルシーン　ここまで
 
 // TCPクラス
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "192.168.15.7"
 typedef enum {
 	eRequestConnecting,
 	eConnecting,
@@ -61,11 +61,11 @@ typedef enum {
 
 	eError,
 	eFinalize,
-	eNone,
 } eTCPstatus;
 typedef enum {
 	eServer,
-	eClient
+	eClient,
+	eNone
 } eTCPmode;
 // TCPクラス　ここまで
 

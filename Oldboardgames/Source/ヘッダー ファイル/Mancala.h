@@ -9,6 +9,7 @@
 #include "Coin.h"
 #include "CoinManager.h"
 #include "TCP.h"
+#include "TCP2.h"
 
 class Mancala : public BaseScene
 {
@@ -49,6 +50,8 @@ private:
 	WSADATA wsaData;
 	SOCKET sock;
 	TCP tcp;
+
+	TCP2 tcp2;
 
 
 	// デバッグ変数

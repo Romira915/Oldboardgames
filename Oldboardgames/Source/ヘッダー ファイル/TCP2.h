@@ -23,6 +23,8 @@ public:
 	std::string Get_message();
 	eTCPstatus Get_TCPstatus();
 
+	void Send_message(const std::string send_str);
+
 private:
 	void TCP_onthread();
 

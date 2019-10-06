@@ -15,7 +15,7 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	{
 		tcp.Client_connect(SERVER_IP);
 	}
-	tcp_mode = eServer;
+	tcp_mode = eNone;
 
 	logout.open("logpos.txt");
 
@@ -75,7 +75,9 @@ void Mancala::Initialize()
 
 	click = false;
 
-	tcp.Initialize();
+	//tcp.Initialize();
+	tcp2.Initialize();
+	tcp2.Client_connect(std::string(SERVER_IP));
 }
 
 void Mancala::Finalize()
@@ -90,7 +92,8 @@ void Mancala::Finalize()
 
 	coinMgr->Finalize();
 
-	tcp.Finalize();
+	//tcp.Finalize();
+	tcp2.Finalize();
 }
 
 void Mancala::Update()
@@ -103,9 +106,10 @@ void Mancala::Update()
 	//Debug_Update();	
 
 	coinMgr->Update();
-	tcp.Update();
+	//tcp.Update();
+	tcp2.Update();
 
-	if (tcp.Get_TCPstatus() == eReceived)
+	/*if (tcp.Get_TCPstatus() == eReceived)
 	{
 		tcp_message = tcp.Get_message_string();
 		if (tcp_message == "server")
@@ -122,6 +126,27 @@ void Mancala::Update()
 			tcp.Client_close();
 			printfDx("%s‚ðŽó‚¯Žæ‚Á‚½\n", tcp_message.c_str());
 			tcp.Client_connect(tcp_message.c_str(), 60000);
+			tcp_mode = eClient;
+		}
+	}*/
+
+	if (tcp2.Get_TCPstatus() == eReceived)
+	{
+		tcp_message = tcp2.Get_message();
+		printfDx("%s‚ðŽóM\n", tcp_message.c_str());
+
+		if (tcp_message == "server")
+		{
+			player = 1;
+			printfDx("listen\n");
+			tcp2.Server_listen(60000);
+			tcp_mode = eServer;
+		}
+		else if (tcp_message.find("192") == 0)
+		{
+			player = 0;
+			printfDx("‚±‚±‚É“ü‚Á‚Ä‚éH");
+			tcp2.Client_connect(tcp_message, 60000);
 			tcp_mode = eClient;
 		}
 	}
@@ -145,16 +170,9 @@ void Mancala::Update()
 					player = (player + 1) % 2;
 				}
 				coinMgr->SelectHole(player1select);
-				if (tcp_mode == eServer)
+				if (tcp_mode != eNone)
 				{
-
-					tcp.Server_send(std::to_string(player1select + 8).c_str());
-					tcp.Server_receive();
-				}
-				else if (tcp_mode == eClient)
-				{
-					tcp.Client_send(std::to_string(player1select + 8).c_str());
-					tcp.Client_receive();
+					tcp2.Send_message(std::to_string(player1select + 8));
 				}
 			}
 		}
@@ -189,10 +207,17 @@ void Mancala::Update()
 				break;
 			case eOnline:
 			{
-				int select = std::stoi(tcp_message);
-				if (select >= 0 && select <= 6)
+				if (tcp_mode != eNone)
 				{
-					coinMgr->SelectHole(select);
+					int select = std::stoi(tcp_message);
+					if (select >= 0 && select <= 6)
+					{
+						if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
+						{
+							player = (player + 1) % 2;
+						}
+						coinMgr->SelectHole(select);
+					}
 				}
 			}
 			break;
@@ -226,7 +251,8 @@ void Mancala::Draw()
 
 	coinMgr->Draw();
 
-	tcp.Draw();
+	//tcp.Draw();
+	tcp2.Draw();
 }
 
 void Mancala::CPU()

@@ -7,6 +7,8 @@ TCP2::TCP2()
 		printfDx("WSAStartup failed\n");
 	}
 
+	tv.tv_sec = 0;
+	tv.tv_usec = 10000;
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eClosed;
 	tcp_th = std::thread(&TCP2::TCP_onthread, this);
@@ -19,8 +21,7 @@ TCP2::~TCP2()
 
 void TCP2::Initialize()
 {
-	tv.tv_sec = 0;
-	tv.tv_usec = 10000;
+	
 }
 
 void TCP2::Finalize()
@@ -60,6 +61,8 @@ std::string TCP2::Get_message()
 	if (tcp_status == eReceived)
 	{
 		return message;
+		std::lock_guard<std::mutex> lock(mtx_tcp_status);
+		tcp_status = eConnected;
 	}
 	return std::string("no message");
 }
@@ -67,6 +70,25 @@ std::string TCP2::Get_message()
 eTCPstatus TCP2::Get_TCPstatus()
 {
 	return tcp_status;
+}
+
+void TCP2::Send_message(const std::string send_str)
+{
+	SOCKET sock = 0;
+
+	if (eTCP_mode == eClient)
+	{
+		sock = server_sock;
+	}
+	else if (eTCP_mode == eServer)
+	{
+		sock = client_sock;
+	}
+
+	if (tcp_status == eConnected)
+	{
+		send(sock, send_str.c_str(), send_str.length(), 0);
+	}
 }
 
 void TCP2::TCP_onthread()
@@ -290,8 +312,6 @@ void TCP2::TCP_onthread()
 			break;
 		case eFinalize:
 			return;
-			break;
-		case eNone:
 			break;
 		default:
 			break;

@@ -119,7 +119,7 @@ eTCPstatus TCP::Get_TCPstatus()
 void TCP::Clear_TCPstatus()
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
-	tcp_status = eNone;
+	tcp_status = eFinalize;
 }
 
 void TCP::Client_connect_onthread(const char* ip, const int port)
