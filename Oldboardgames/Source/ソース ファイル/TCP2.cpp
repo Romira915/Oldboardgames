@@ -195,7 +195,6 @@ void TCP2::TCP_onthread()
 
 				FD_ZERO(&readfds);
 				FD_SET(bind_sock, &readfds);
-				FD_SET(client_sock, &readfds);
 
 				setsockopt(bind_sock, SOL_SOCKET, SO_REUSEADDR, (const char*)& yes, sizeof(yes));
 
@@ -223,6 +222,8 @@ void TCP2::TCP_onthread()
 					if (FD_ISSET(bind_sock, &fds))
 					{
 						client_sock = accept(bind_sock, (struct sockaddr*) & client, &len);
+						FD_SET(client_sock, &readfds);
+
 						break;
 					}
 				}
