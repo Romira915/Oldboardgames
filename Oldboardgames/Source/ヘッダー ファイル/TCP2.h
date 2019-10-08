@@ -38,6 +38,7 @@ private:
 	std::string message;
 	std::mutex mtx_message;
 	eTCPmode eTCP_mode;
+	std::mutex mtx_eTCP_mode;
 
 	std::string ip;
 	int port;

@@ -11,11 +11,7 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	coinMgr = new CoinManager(OI);
 	gamemode = mode;
 	tcp_message = "null";
-	if (gamemode == eOnline)
-	{
-		//tcp.Client_connect(SERVER_IP);
-	}
-
+	
 	logout.open("logpos.txt");
 
 	//net();

@@ -11,8 +11,9 @@ TCP2::TCP2()
 
 	tv.tv_sec = 0;
 	tv.tv_usec = 10000;
-	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	std::lock_guard<std::mutex> lock2(mtx_eTCP_mode);
 	eTCP_mode = eNone;
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eClosed;
 	tcp_th = std::thread(&TCP2::TCP_onthread, this);
 }
@@ -45,18 +46,20 @@ void TCP2::Draw()
 
 void TCP2::Client_connect(const std::string set_ip, const int set_port)
 {
-	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	ip = set_ip;
 	port = set_port;
+	std::lock_guard<std::mutex> lock2(mtx_eTCP_mode);
 	eTCP_mode = eClient;
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eRequestConnecting;
 }
 
 void TCP2::Server_listen(const int set_port)
 {
-	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	port = set_port;
+	std::lock_guard<std::mutex> lock2(mtx_eTCP_mode);
 	eTCP_mode = eServer;
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eRequestConnecting;
 }
 
@@ -64,20 +67,22 @@ std::string TCP2::Get_message()
 {
 	if (tcp_status == eReceived)
 	{
-		return message;
 		std::lock_guard<std::mutex> lock(mtx_tcp_status);
 		tcp_status = eConnected;
+		return message;
 	}
 	return std::string("no message");
 }
 
 eTCPstatus TCP2::Get_TCPstatus()
 {
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	return tcp_status;
 }
 
 eTCPmode TCP2::Get_TCPmode()
 {
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	return eTCP_mode;
 }
 
@@ -85,17 +90,22 @@ void TCP2::Send_message(const std::string send_str)
 {
 	SOCKET sock = 0;
 
-	if (eTCP_mode == eClient)
 	{
-		sock = server_sock;
-	}
-	else if (eTCP_mode == eServer)
-	{
-		sock = client_sock;
+		std::lock_guard<std::mutex> lock(mtx_eTCP_mode);
+		if (eTCP_mode == eClient)
+		{
+			sock = server_sock;
+		}
+		else if (eTCP_mode == eServer)
+		{
+			sock = client_sock;
+		}
 	}
 
+	mtx_tcp_status.lock();
 	if (tcp_status == eConnected)
 	{
+		mtx_tcp_status.unlock();
 		send(sock, send_str.c_str(), send_str.length(), 0);
 	}
 }
@@ -104,10 +114,12 @@ void TCP2::TCP_onthread()
 {
 	while (true)
 	{
+		mtx_tcp_status.lock();
 		switch (tcp_status)
 		{
 		case eRequestConnecting:
 		{
+			mtx_tcp_status.unlock();
 			if (eTCP_mode == eClient)
 			{
 				mtx_tcp_status.lock();
@@ -246,9 +258,11 @@ void TCP2::TCP_onthread()
 		}
 		break;
 		case eConnecting:
+			mtx_tcp_status.unlock();
 			break;
 		case eConnected:
 		{
+			mtx_tcp_status.unlock();
 			memcpy(&fds, &readfds, sizeof(fd_set));
 
 			if (select(0, &fds, NULL, NULL, &tv) != 0)
@@ -292,6 +306,7 @@ void TCP2::TCP_onthread()
 		break;
 		case eRequestClosing:
 		{
+			mtx_tcp_status.unlock();
 			SOCKET sock = 0;
 
 			if (eTCP_mode == eClient)
@@ -309,18 +324,25 @@ void TCP2::TCP_onthread()
 		}
 			break;
 		case eClosing:
+			mtx_tcp_status.unlock();
 			break;
 		case eClosed:
+			mtx_tcp_status.unlock();
 			break;
 		case eReceiving:
+			mtx_tcp_status.unlock();
 			break;
 		case eReceived:
+			mtx_tcp_status.unlock();
 			break;
 		case eRequestSend:
+			mtx_tcp_status.unlock();
 			break;
 		case eError:
+			mtx_tcp_status.unlock();
 			break;
 		case eFinalize:
+			mtx_tcp_status.unlock();
 			return;
 			break;
 		default:
