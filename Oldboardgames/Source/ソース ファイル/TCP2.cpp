@@ -12,6 +12,7 @@ TCP2::TCP2()
 	tv.tv_sec = 0;
 	tv.tv_usec = 10000;
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
+	eTCP_mode = eNone;
 	tcp_status = eClosed;
 	tcp_th = std::thread(&TCP2::TCP_onthread, this);
 }
@@ -73,6 +74,11 @@ std::string TCP2::Get_message()
 eTCPstatus TCP2::Get_TCPstatus()
 {
 	return tcp_status;
+}
+
+eTCPmode TCP2::Get_TCPmode()
+{
+	return eTCP_mode;
 }
 
 void TCP2::Send_message(const std::string send_str)

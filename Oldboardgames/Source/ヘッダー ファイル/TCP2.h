@@ -22,6 +22,7 @@ public:
 	void Server_listen(const int set_port = 59150);
 	std::string Get_message();
 	eTCPstatus Get_TCPstatus();
+	eTCPmode Get_TCPmode();
 
 	void Send_message(const std::string send_str);
 

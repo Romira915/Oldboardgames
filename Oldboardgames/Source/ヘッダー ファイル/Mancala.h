@@ -24,6 +24,7 @@ public:
 
 private:
 	void CPU();
+	int Online();
 	void Debug_Update();
 
 	eMancalaMode gamemode; // 0...PvP, 1...vsCPU, 2...Online
@@ -39,11 +40,11 @@ private:
 	int player1Handle, player2Handle;
 	int player;
 	int player1select, player2select;
+	int onlineselect;
 
 	CoinManager* coinMgr;
 
 	std::string tcp_message;
-	eTCPmode tcp_mode;
 
 	//ŠJ”­’†
 	void net();

@@ -15,7 +15,6 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	{
 		//tcp.Client_connect(SERVER_IP);
 	}
-	tcp_mode = eNone;
 
 	logout.open("logpos.txt");
 
@@ -72,6 +71,7 @@ void Mancala::Initialize()
 	player = GetRand(1);
 	player1select = 0;
 	player2select = 8;
+	onlineselect = -1;
 
 	click = false;
 
@@ -144,14 +144,20 @@ void Mancala::Update()
 			player = 1;
 			printfDx("listen\n");
 			tcp2.Server_listen(60000);
-			tcp_mode = eServer;
 		}
-		else if (tcp_message.find("192") == 0)
+		else if (tcp_message.find("127") == 0 || tcp_message.find("192") == 0)
 		{
 			player = 0;
-			printfDx("‚±‚±‚É“ü‚Á‚Ä‚éH\n");
 			tcp2.Client_connect(tcp_message, 60000);
-			tcp_mode = eClient;
+		}
+		else
+		{
+			onlineselect = stoi(tcp_message);
+			printfDx("”’l%d‚É•ÏŠ·\n", onlineselect);
+			if (!(onlineselect >= 8 && onlineselect <= 14))
+			{
+				onlineselect = -1;
+			}
 		}
 	}
 
@@ -173,8 +179,9 @@ void Mancala::Update()
 				{
 					player = (player + 1) % 2;
 				}
+				printfDx("‘I‚ñ‚¾\n");
 				coinMgr->SelectHole(player1select);
-				if (tcp_mode != eNone)
+				if (tcp2.Get_TCPmode() != eNone)
 				{
 					tcp2.Send_message(std::to_string(player1select + 8));
 				}
@@ -211,23 +218,19 @@ void Mancala::Update()
 				break;
 			case eOnline:
 			{
-				if (tcp_mode != eNone)
+				if (tcp2.Get_TCPmode() != eNone)
 				{
-					try
+					int tmpselect = -1;
+					if ((tmpselect = Online()) != -1)
 					{
-						int select = stoi(tcp_message);
-						if (select >= 0 && select <= 6)
+						player2select = tmpselect;
+						printfDx("player2select:%d\n", player2select);
+						if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
 						{
-							if ((player2select + coinMgr->Get_boardstatus(player2select)) % 8 != 7)
-							{
-								player = (player + 1) % 2;
-							}
-							coinMgr->SelectHole(select);
+							player = (player + 1) % 2;
 						}
-					}
-					catch (const std::exception& error)
-					{
-
+						printfDx("%d\n", player2select);
+						coinMgr->SelectHole(player2select);
 					}
 				}
 			}
@@ -303,6 +306,14 @@ void Mancala::CPU()
 	}
 	coinMgr->SelectHole(r);
 	player2select = r;
+}
+
+int Mancala::Online()
+{
+	int tmp = onlineselect;
+	onlineselect = -1;
+
+	return tmp;
 }
 
 void Mancala::Debug_Update()
