@@ -25,14 +25,16 @@ TCP2::~TCP2()
 
 void TCP2::Initialize()
 {
-	
+
 }
 
 void TCP2::Finalize()
 {
-	mtx_tcp_status.lock();
-	tcp_status = eFinalize;
-	mtx_tcp_status.unlock();
+	{
+		std::lock_guard<std::mutex> lock(mtx_tcp_status);
+		tcp_status = eFinalize;
+
+	}
 	tcp_th.join();
 }
 
@@ -102,11 +104,12 @@ void TCP2::Send_message(const std::string send_str)
 		}
 	}
 
-	mtx_tcp_status.lock();
-	if (tcp_status == eConnected)
 	{
-		mtx_tcp_status.unlock();
-		send(sock, send_str.c_str(), send_str.length(), 0);
+		std::lock_guard<std::mutex> lock(mtx_tcp_status);
+		if (tcp_status == eConnected)
+		{
+			send(sock, send_str.c_str(), send_str.length(), 0);
+		}
 	}
 }
 
@@ -122,9 +125,10 @@ void TCP2::TCP_onthread()
 			mtx_tcp_status.unlock();
 			if (eTCP_mode == eClient)
 			{
-				mtx_tcp_status.lock();
-				tcp_status = eConnecting;
-				mtx_tcp_status.unlock();
+				{
+					std::lock_guard<std::mutex> lock(mtx_tcp_status);
+					tcp_status = eConnecting;
+				}
 
 				printfDx("connect‚·‚é‚æ\n");
 				unsigned int** addrptr;
@@ -197,14 +201,16 @@ void TCP2::TCP_onthread()
 			}
 			else if (eTCP_mode == eServer)
 			{
-				mtx_tcp_status.lock();
-				tcp_status = eConnecting;
-				mtx_tcp_status.unlock();
+				{
+					std::lock_guard<std::mutex> lock(mtx_tcp_status);
+					tcp_status = eConnecting;
+				}
 
 				bind_sock = socket(AF_INET, SOCK_STREAM, 0);
 				if (bind_sock == INVALID_SOCKET) {
 					printfDx("socket : %d\n", WSAGetLastError());
-					return;
+					std::lock_guard<std::mutex> lock(mtx_tcp_status);
+					tcp_status = eError;
 				}
 
 				addr.sin_family = AF_INET;
@@ -250,9 +256,10 @@ void TCP2::TCP_onthread()
 					break;
 				}
 
-				mtx_tcp_status.lock();
-				tcp_status = eConnected;
-				mtx_tcp_status.unlock();
+				{
+					std::lock_guard<std::mutex> lock(mtx_tcp_status);
+					tcp_status = eConnected;
+				}
 				printfDx("accept\n");
 			}
 		}
@@ -263,9 +270,10 @@ void TCP2::TCP_onthread()
 		case eConnected:
 		{
 			mtx_tcp_status.unlock();
+
 			memcpy(&fds, &readfds, sizeof(fd_set));
 
-			if (select(0, &fds, NULL, NULL, &tv) != 0)
+			if (select(0, &fds, NULL, NULL, &tv) > 0)
 			{
 				printfDx("select\n");
 				SOCKET sock = 0;
@@ -322,7 +330,7 @@ void TCP2::TCP_onthread()
 			std::lock_guard<std::mutex> lock(mtx_tcp_status);
 			tcp_status = eClosed;
 		}
-			break;
+		break;
 		case eClosing:
 			mtx_tcp_status.unlock();
 			break;
