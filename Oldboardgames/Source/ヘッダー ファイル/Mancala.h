@@ -47,11 +47,6 @@ private:
 	std::string tcp_message;
 
 	//ŠJ”­’†
-	void net();
-	WSADATA wsaData;
-	SOCKET sock;
-	//TCP tcp;
-
 	TCP2 tcp2;
 
 

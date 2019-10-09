@@ -1,8 +1,8 @@
-#include "TCP.h"
+#include "OldTCP.h"
 #include <cstdio>
 #include <DxLib.h>
 
-TCP::TCP()
+OldTCP::OldTCP()
 {
 	if (WSAStartup(MAKEWORD(2, 0), &wsaData) != 0) {
 		printfDx("WSAStartup failed\n");
@@ -12,16 +12,16 @@ TCP::TCP()
 	tcp_status = eClosed;
 }
 
-TCP::~TCP()
+OldTCP::~OldTCP()
 {
 	WSACleanup();
 }
 
-void TCP::Initialize()
+void OldTCP::Initialize()
 {
 }
 
-void TCP::Finalize()
+void OldTCP::Finalize()
 {
 	for (std::thread& th : th) {
 		th.join();
@@ -29,80 +29,80 @@ void TCP::Finalize()
 	th.clear();
 }
 
-void TCP::Update()
+void OldTCP::Update()
 {
 }
 
-void TCP::Draw()
+void OldTCP::Draw()
 {
 
 }
 
-void TCP::Client_connect(const char* ip, const int port)
+void OldTCP::Client_connect(const char* ip, const int port)
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eConnecting;
-	th.push_back(std::thread(&TCP::Client_connect_onthread, this, ip, port));
+	th.push_back(std::thread(&OldTCP::Client_connect_onthread, this, ip, port));
 }
 
-void TCP::Client_close()
+void OldTCP::Client_close()
 {
 	closesocket(server_sock);
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eClosed;
 }
 
-void TCP::Client_receive()
+void OldTCP::Client_receive()
 {
 	if (tcp_status == eConnected)
 	{
 		std::lock_guard<std::mutex> lock(mtx_tcp_status);
 		tcp_status = eReceiving;
-		th.push_back(std::thread(&TCP::Client_receive_onthread, this));
+		th.push_back(std::thread(&OldTCP::Client_receive_onthread, this));
 	}
 }
 
-void TCP::Client_send(const char* message)
+void OldTCP::Client_send(const char* message)
 {
 	if (tcp_status == eConnected)
 	{
-		th.push_back(std::thread(&TCP::Client_send_onthread, this, message));
+		th.push_back(std::thread(&OldTCP::Client_send_onthread, this, message));
 	}
 }
 
-void TCP::Server_listen(const int port)
+void OldTCP::Server_listen(const int port)
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eConnecting;
-	th.push_back(std::thread(&TCP::Server_listen_onthread, this, port));
+	th.push_back(std::thread(&OldTCP::Server_listen_onthread, this, port));
 }
 
-void TCP::Server_close()
+void OldTCP::Server_close()
 {
 	closesocket(client_sock);
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eClosed;
 }
 
-void TCP::Server_receive()
+void OldTCP::Server_receive()
 {
 	if (tcp_status == eConnected)
 	{
 		std::lock_guard<std::mutex> lock(mtx_tcp_status);
 		tcp_status = eReceiving;
-		th.push_back(std::thread(&TCP::Server_receive_onthread, this));
+		th.push_back(std::thread(&OldTCP::Server_receive_onthread, this));
 	}
 }
 
-void TCP::Server_send(const char* message)
+void OldTCP::Server_send(const char* message)
 {
 	if (tcp_status == eConnected)
 	{
-		th.push_back(std::thread(&TCP::Server_send_onthread, this, message));
+		th.push_back(std::thread(&OldTCP::Server_send_onthread, this, message));
 	}
 }
 
-std::string TCP::Get_message_string()
+std::string OldTCP::Get_message_string()
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eConnected;
@@ -110,19 +110,19 @@ std::string TCP::Get_message_string()
 	return str_receive;
 }
 
-eTCPstatus TCP::Get_TCPstatus()
+eTCPstatus OldTCP::Get_TCPstatus()
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	return tcp_status;
 }
 
-void TCP::Clear_TCPstatus()
+void OldTCP::Clear_TCPstatus()
 {
 	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	tcp_status = eFinalize;
 }
 
-void TCP::Client_connect_onthread(const char* ip, const int port)
+void OldTCP::Client_connect_onthread(const char* ip, const int port)
 {
 	printfDx("connect‚·‚é‚æ\n");
 	unsigned int** addrptr;
@@ -184,14 +184,14 @@ void TCP::Client_connect_onthread(const char* ip, const int port)
 			tcp_status = eConnected;
 			mtx_tcp_status.unlock();
 
-			TCP::Client_receive_onthread();
+			OldTCP::Client_receive_onthread();
 		}
 	}
 
 	return;
 }
 
-void TCP::Client_receive_onthread()
+void OldTCP::Client_receive_onthread()
 {
 	memset(buf, 0, sizeof(buf));
 	int n = recv(server_sock, buf, sizeof(buf), 0);
@@ -208,12 +208,12 @@ void TCP::Client_receive_onthread()
 	printfDx("%d, %s\n", n, buf);
 }
 
-void TCP::Client_send_onthread(const char* message)
+void OldTCP::Client_send_onthread(const char* message)
 {
 	send(server_sock, message, strlen(message), 0);
 }
 
-void TCP::Server_listen_onthread(const int port)
+void OldTCP::Server_listen_onthread(const int port)
 {
 	bind_sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (bind_sock == INVALID_SOCKET) {
@@ -245,10 +245,10 @@ void TCP::Server_listen_onthread(const int port)
 	mtx_tcp_status.lock();
 	tcp_status = eReceiving;
 	mtx_tcp_status.unlock();
-	TCP::Server_receive_onthread();
+	OldTCP::Server_receive_onthread();
 }
 
-void TCP::Server_receive_onthread()
+void OldTCP::Server_receive_onthread()
 {
 	memset(buf, 0, sizeof(buf));
 	int n = recv(client_sock, buf, sizeof(buf), 0);
@@ -265,7 +265,7 @@ void TCP::Server_receive_onthread()
 	printfDx("%d, %s\n", n, buf);
 }
 
-void TCP::Server_send_onthread(const char* message)
+void OldTCP::Server_send_onthread(const char* message)
 {
 	send(server_sock, message, strlen(message), 0);
 }

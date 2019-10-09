@@ -13,34 +13,6 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	tcp_message = "null";
 	
 	logout.open("logpos.txt");
-
-	//net();
-
-	/*switch (WSAStartup(MAKEWORD(2, 0), &wsaData))
-	{
-	case WSASYSNOTREADY:
-		printfDx("WSASYSNOTREADY\n");
-		break;
-	case WSAVERNOTSUPPORTED:
-		printfDx("WSAVERNOTSUPPORTED\n");
-		break;
-	case WSAEINPROGRESS:
-		printfDx("WSAEINPROGRESS\n");
-		break;
-	case WSAEPROCLIM:
-		printfDx("WSAEPROCLIM\n");
-		break;
-	case WSAEFAULT:
-		printfDx("WSAEFAULT\n");
-		break;
-	default:
-		break;
-	}
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (sock == INVALID_SOCKET) {
-		printfDx("socket failed\n");
-		printfDx("errorcode:%d", WSAGetLastError());
-	}*/
 }
 
 Mancala::~Mancala()
@@ -71,11 +43,9 @@ void Mancala::Initialize()
 
 	click = false;
 
-	//tcp.Initialize();
 	tcp2.Initialize();
 	if (gamemode == eOnline)
 	{
-		//tcp.Client_connect(SERVER_IP);
 		tcp2.Client_connect(std::string(SERVER_IP));
 	}
 }
@@ -92,7 +62,6 @@ void Mancala::Finalize()
 
 	coinMgr->Finalize();
 
-	//tcp.Finalize();
 	tcp2.Finalize();
 }
 
@@ -106,29 +75,7 @@ void Mancala::Update()
 	//Debug_Update();	
 
 	coinMgr->Update();
-	//tcp.Update();
 	tcp2.Update();
-
-	/*if (tcp.Get_TCPstatus() == eReceived)
-	{
-		tcp_message = tcp.Get_message_string();
-		if (tcp_message == "server")
-		{
-			player = 1;
-			tcp.Client_close();
-			printfDx("listen\n");
-			tcp.Server_listen(60000);
-			tcp_mode = eServer;
-		}
-		else if (tcp_message.find("192") == 0)
-		{
-			player = 0;
-			tcp.Client_close();
-			printfDx("%sを受け取った\n", tcp_message.c_str());
-			tcp.Client_connect(tcp_message.c_str(), 60000);
-			tcp_mode = eClient;
-		}
-	}*/
 
 	if (tcp2.Get_TCPstatus() == eReceived)
 	{
@@ -261,7 +208,6 @@ void Mancala::Draw()
 
 	coinMgr->Draw();
 
-	//tcp.Draw();
 	tcp2.Draw();
 }
 
@@ -347,35 +293,4 @@ void Mancala::Debug_Update()
 		}
 		logout << '}';
 	}
-}
-
-void Mancala::net()
-{
-	WSADATA wsaData;
-	struct sockaddr_in server;
-	SOCKET sock;
-	char buf[32];
-
-	// winsock2の初期化
-	WSAStartup(MAKEWORD(2, 0), &wsaData);
-
-	// ソケットの作成
-	sock = socket(AF_INET, SOCK_STREAM, 0);
-
-	// 接続先指定用構造体の準備
-	server.sin_family = AF_INET;
-	server.sin_port = htons(59150);
-	server.sin_addr.S_un.S_addr = inet_addr("192.168.15.7");
-
-	// サーバに接続
-	connect(sock, (struct sockaddr*) & server, sizeof(server));
-
-	// サーバからデータを受信
-	memset(buf, 0, sizeof(buf));
-	int n = recv(sock, buf, sizeof(buf), 0);
-
-	printfDx("%d, %s\n", n, buf);
-
-	// winsock2の終了処理
-	WSACleanup();
 }

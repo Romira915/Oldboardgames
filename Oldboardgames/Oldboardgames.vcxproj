@@ -170,7 +170,7 @@
     <ClCompile Include="source\ソース ファイル\Move.cpp" />
     <ClCompile Include="source\ソース ファイル\Other.cpp" />
     <ClCompile Include="source\ソース ファイル\SceneManager.cpp" />
-    <ClCompile Include="source\ソース ファイル\TCP.cpp" />
+    <ClCompile Include="source\ソース ファイル\OldTCP.cpp" />
     <ClCompile Include="source\ソース ファイル\TCP2.cpp" />
     <ClCompile Include="source\ソース ファイル\Title.cpp" />
   </ItemGroup>
@@ -186,7 +186,7 @@
     <ClInclude Include="source\ヘッダー ファイル\OtherInterface.h" />
     <ClInclude Include="source\ヘッダー ファイル\SceneManager.h" />
     <ClInclude Include="source\ヘッダー ファイル\Task.h" />
-    <ClInclude Include="source\ヘッダー ファイル\TCP.h" />
+    <ClInclude Include="source\ヘッダー ファイル\OldTCP.h" />
     <ClInclude Include="source\ヘッダー ファイル\TCP2.h" />
     <ClInclude Include="source\ヘッダー ファイル\Title.h" />
   </ItemGroup>
