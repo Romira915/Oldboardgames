@@ -8,11 +8,11 @@
 #include <thread>
 #include <vector>
 
-class TCP : public Task
+class OldTCP : public Task
 {
 public:
-	TCP();
-	virtual ~TCP();
+	OldTCP();
+	virtual ~OldTCP();
 	void Initialize();
 	void Finalize();
 	void Update();

@@ -8,7 +8,6 @@
 #include <fstream>
 #include "Coin.h"
 #include "CoinManager.h"
-#include "TCP.h"
 #include "TCP2.h"
 
 class Mancala : public BaseScene
