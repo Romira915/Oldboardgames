@@ -43,11 +43,8 @@ private:
 
 	CoinManager* coinMgr;
 
-	std::string tcp_message;
-
-	//開発中
 	TCP2 tcp2;
-
+	std::string tcp_message;
 
 	// デバッグ変数
 	bool click;

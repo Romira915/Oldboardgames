@@ -36,8 +36,8 @@ int main()
 
 		len2 = sizeof(client2);
 		sock2 = accept(sock0, (struct sockaddr*) & client2, &len2);
-		char* client1_ip = inet_ntoa(client1.sin_addr);
-		send(sock2, client1_ip, strlen(client1_ip), 0);
+		std::string client1_ip = std::string("ip") + std::string(inet_ntoa(client1.sin_addr));
+		send(sock2, client1_ip.c_str(), client1_ip.length(), 0);
 
 		closesocket(sock2);
 	}

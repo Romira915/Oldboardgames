@@ -11,7 +11,7 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	coinMgr = new CoinManager(OI);
 	gamemode = mode;
 	tcp_message = "null";
-	
+
 	logout.open("logpos.txt");
 }
 
@@ -88,10 +88,10 @@ void Mancala::Update()
 			printfDx("listen\n");
 			tcp2.Server_listen(60000);
 		}
-		else if (tcp_message.find("127") == 0 || tcp_message.find("192") == 0)
+		else if (tcp_message.find_first_of("ip") == 0)
 		{
 			player = 0;
-			tcp2.Client_connect(tcp_message, 60000);
+			tcp2.Client_connect(tcp_message.substr(2), 60000);
 		}
 		else
 		{
@@ -118,15 +118,18 @@ void Mancala::Update()
 			}
 			else if (mOtherInterface->KeyDown(KEY_INPUT_RETURN) && coinMgr->Get_boardstatus(player1select))
 			{
-				if ((player1select + coinMgr->Get_boardstatus(player1select)) % 8 != 7)
+				if (gamemode != eOnline || (gamemode == eOnline && tcp2.Get_TCPstatus() == eConnected))
 				{
-					player = (player + 1) % 2;
-				}
-				printfDx("‘I‚ñ‚¾\n");
-				coinMgr->SelectHole(player1select);
-				if (tcp2.Get_TCPmode() != eNone)
-				{
-					tcp2.Send_message(std::to_string(player1select + 8));
+					if ((player1select + coinMgr->Get_boardstatus(player1select)) % 8 != 7)
+					{
+						player = (player + 1) % 2;
+					}
+					coinMgr->SelectHole(player1select);
+					if (gamemode == eOnline && tcp2.Get_TCPstatus() == eConnected)
+					{
+						tcp2.Send_message(std::to_string(player1select + 8));
+					}
+
 				}
 			}
 		}
@@ -161,7 +164,7 @@ void Mancala::Update()
 				break;
 			case eOnline:
 			{
-				if (tcp2.Get_TCPmode() != eNone)
+				if (tcp2.Get_TCPstatus() == eConnected)
 				{
 					int tmpselect = -1;
 					if ((tmpselect = Online()) != -1)

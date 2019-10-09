@@ -9,12 +9,21 @@ TCP2::TCP2()
 		printfDx("WSAStartup failed\n");
 	}
 
+	memset(buf, 0, sizeof(buf));
+	port = 0;
+	server_sock = 0;
+	bind_sock = 0;
+	len = 0;
+	client_sock = 0;
+
 	tv.tv_sec = 0;
 	tv.tv_usec = 10000;
-	std::lock_guard<std::mutex> lock2(mtx_eTCP_mode);
-	eTCP_mode = eNone;
-	std::lock_guard<std::mutex> lock(mtx_tcp_status);
-	tcp_status = eClosed;
+	{
+		std::lock_guard<std::mutex> lock2(mtx_eTCP_mode);
+		eTCP_mode = eNone;
+		std::lock_guard<std::mutex> lock(mtx_tcp_status);
+		tcp_status = eClosed;
+	}
 	tcp_th = std::thread(&TCP2::TCP_onthread, this);
 }
 
@@ -32,9 +41,19 @@ void TCP2::Finalize()
 {
 	{
 		std::lock_guard<std::mutex> lock(mtx_tcp_status);
-		tcp_status = eFinalize;
-
+		tcp_status = eRequestClosing;
 	}
+
+	while (true)
+	{
+		if (Get_TCPstatus() == eClosed)
+		{
+			std::lock_guard<std::mutex> lock(mtx_tcp_status);
+			tcp_status = eFinalize;
+			break;
+		}
+	}
+
 	tcp_th.join();
 }
 
@@ -67,9 +86,9 @@ void TCP2::Server_listen(const int set_port)
 
 std::string TCP2::Get_message()
 {
+	std::lock_guard<std::mutex> lock(mtx_tcp_status);
 	if (tcp_status == eReceived)
 	{
-		std::lock_guard<std::mutex> lock(mtx_tcp_status);
 		tcp_status = eConnected;
 		return message;
 	}
@@ -138,6 +157,7 @@ void TCP2::TCP_onthread()
 					printfDx("socket : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
+					break;
 				}
 
 				server.sin_family = AF_INET;
@@ -156,6 +176,7 @@ void TCP2::TCP_onthread()
 							printfDx("host not found : %s\n", ip);
 							std::lock_guard<std::mutex> lock(mtx_tcp_status);
 							tcp_status = eError;
+							break;
 						}
 					}
 
@@ -179,6 +200,7 @@ void TCP2::TCP_onthread()
 						printfDx("connect : %d\n", WSAGetLastError());
 						std::lock_guard<std::mutex> lock(mtx_tcp_status);
 						tcp_status = eError;
+						break;
 					}
 				}
 				else {
@@ -190,6 +212,7 @@ void TCP2::TCP_onthread()
 						printfDx("connect : %d\n", WSAGetLastError());
 						std::lock_guard<std::mutex> lock(mtx_tcp_status);
 						tcp_status = eError;
+						break;
 					}
 					else
 					{
@@ -211,6 +234,7 @@ void TCP2::TCP_onthread()
 					printfDx("socket : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
+					break;
 				}
 
 				addr.sin_family = AF_INET;
@@ -226,6 +250,7 @@ void TCP2::TCP_onthread()
 					printfDx("bind : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
+					break;
 				}
 
 				if (listen(bind_sock, 5) != 0)
@@ -233,6 +258,7 @@ void TCP2::TCP_onthread()
 					printfDx("listen : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
+					break;
 				}
 
 				printfDx("listenÇ∑ÇÈèÄîıÇÇ∑ÇÈÇÊ\n");
@@ -294,6 +320,7 @@ void TCP2::TCP_onthread()
 						printfDx("recv : %d\n", WSAGetLastError());
 						std::lock_guard<std::mutex> lock(mtx_tcp_status);
 						tcp_status = eError;
+						break;
 					}
 					else if (n == 0)
 					{
@@ -315,18 +342,18 @@ void TCP2::TCP_onthread()
 		case eRequestClosing:
 		{
 			mtx_tcp_status.unlock();
-			SOCKET sock = 0;
 
-			if (eTCP_mode == eClient)
+			if (server_sock != 0)
 			{
-				sock = server_sock;
+				closesocket(server_sock);
 			}
-			else if (eTCP_mode == eServer)
+			if (client_sock != 0)
 			{
-				sock = client_sock;
+				closesocket(client_sock);
 			}
-			closesocket(sock);
 
+			std::lock_guard<std::mutex> lock2(mtx_eTCP_mode);
+			eTCP_mode = eNone;
 			std::lock_guard<std::mutex> lock(mtx_tcp_status);
 			tcp_status = eClosed;
 		}
@@ -348,6 +375,20 @@ void TCP2::TCP_onthread()
 			break;
 		case eError:
 			mtx_tcp_status.unlock();
+
+			if (server_sock != 0)
+			{
+				closesocket(server_sock);
+			}
+			if (client_sock != 0)
+			{
+				closesocket(client_sock);
+			}
+			{
+				std::lock_guard<std::mutex> lock(mtx_tcp_status);
+				tcp_status = eFinalize;
+			}
+
 			break;
 		case eFinalize:
 			mtx_tcp_status.unlock();
