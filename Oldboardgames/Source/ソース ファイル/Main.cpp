@@ -7,6 +7,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	if (ChangeWindowMode(true) != DX_CHANGESCREEN_OK || SetMainWindowText("Mancala") == -1
 		|| SetGraphMode(SCREEN_SIZEX, SCREEN_SIZEY, 32) == -1 || SetDoubleStartValidFlag(TRUE)
+		|| SetBackgroundColor(35, 35, 35)
 		|| DxLib_Init() == -1
 		|| SetDrawScreen(DX_SCREEN_BACK) == -1 || SetWindowSizeChangeEnableFlag(TRUE) == -1
 		|| SetAlwaysRunFlag(TRUE) == -1 || SetUseASyncLoadFlag(TRUE) == -1)
