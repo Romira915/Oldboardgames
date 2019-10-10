@@ -39,21 +39,25 @@ void TCP2::Initialize()
 
 void TCP2::Finalize()
 {
+	if (Get_TCPstatus() != eFinalize)
 	{
-		std::lock_guard<std::mutex> lock(mtx_tcp_status);
-		tcp_status = eRequestClosing;
-	}
-
-	while (true)
-	{
-		if (Get_TCPstatus() == eClosed)
 		{
 			std::lock_guard<std::mutex> lock(mtx_tcp_status);
-			tcp_status = eFinalize;
-			break;
+			tcp_status = eRequestClosing;
+		}
+
+		while (true)
+		{
+			if (Get_TCPstatus() == eClosed)
+			{
+				std::lock_guard<std::mutex> lock(mtx_tcp_status);
+				tcp_status = eFinalize;
+				break;
+			}
 		}
 	}
 
+	printfDx("終わり\n");
 	tcp_th.join();
 }
 
@@ -244,7 +248,7 @@ void TCP2::TCP_onthread()
 				FD_ZERO(&readfds);
 				FD_SET(bind_sock, &readfds);
 
-				setsockopt(bind_sock, SOL_SOCKET, SO_REUSEADDR, (const char*)& yes, sizeof(yes));
+				setsockopt(bind_sock, SOL_SOCKET, SO_REUSEADDR, (const char*)&yes, sizeof(yes));
 
 				if (bind(bind_sock, (struct sockaddr*) & addr, sizeof(addr)) != 0) {
 					printfDx("bind : %d\n", WSAGetLastError());
@@ -376,6 +380,7 @@ void TCP2::TCP_onthread()
 		case eError:
 			mtx_tcp_status.unlock();
 
+			printfDx("エラーなんですが\n");
 			if (server_sock != 0)
 			{
 				closesocket(server_sock);
@@ -388,13 +393,14 @@ void TCP2::TCP_onthread()
 				std::lock_guard<std::mutex> lock(mtx_tcp_status);
 				tcp_status = eFinalize;
 			}
-
+			printfDx("エラー終わり\n");
 			break;
 		case eFinalize:
 			mtx_tcp_status.unlock();
 			return;
 			break;
 		default:
+			mtx_tcp_status.unlock();
 			break;
 		}
 	}
