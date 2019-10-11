@@ -10,6 +10,15 @@
 #include "CoinManager.h"
 #include "TCP2.h"
 
+typedef enum {
+	ePlayer1Win,
+	ePlayer2Win,
+	eYouWin,
+	eYouLose,
+
+	eUndefined
+} VictoryorDefeat;
+
 class Mancala : public BaseScene
 {
 public:
@@ -33,13 +42,19 @@ private:
 	const std::string coin_filepath = "Assets//coin";
 	const char* player1_filepath = "Assets//player1.png";
 	const char* player2_filepath = "Assets//player2.png";
+	const char* you_filepath = "Assets//You.png";
+	const char* win_filepath = "Assets//win.png";
+	const char* lose_filepath = "Assets//Lose.png";
 	int boardHandle;
 	int boardselectHandle[BOARD_NUM];
 	std::vector<int> coinHandle;
 	int player1Handle, player2Handle;
+	int youHandle;
+	int winHandle, loseHandle;
 	int player;
 	int player1select, player2select;
 	int onlineselect;
+	VictoryorDefeat vod;
 
 	CoinManager* coinMgr;
 

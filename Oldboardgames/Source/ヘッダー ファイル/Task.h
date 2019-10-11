@@ -18,6 +18,15 @@
 #define SPEED 0.03
 
 #define COINFONTSIZE 54 / STD_SCREENSIZEX
+
+#define PLAYER1_IMGX 0.04
+#define PLAYER2_IMGX 0.96
+#define PLAYER12_IMGY 0.03
+
+#define PlAYER12YOU_WINX 0.5
+#define PlAYER12YOU_WINY 0.4
+#define WINLOSE_IMGX 0.5
+#define WINLOSE_IMGY 0.5
 // マンカラPvPシーン　ここまで
 
 // FPSクラス定義関係
@@ -25,10 +34,6 @@
 // FPSクラス　ここまで
 
 // タイトルシーン関係定義
-#define PLAYER1_IMGX 0.04
-#define PLAYER2_IMGX 0.96
-#define PLAYER12_IMGY 0.03
-
 #define TITLE_X 0.5
 #define TITLE_Y 0.15
 #define PVP_X 0.5
@@ -47,7 +52,7 @@
 // タイトルシーン　ここまで
 
 // TCPクラス
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "192.168.15.7"
 typedef enum {
 	eRequestConnecting,
 	eConnecting,

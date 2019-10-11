@@ -34,12 +34,16 @@ void Mancala::Initialize()
 
 	player1Handle = LoadGraph(player1_filepath);
 	player2Handle = LoadGraph(player2_filepath);
+	youHandle = LoadGraph(you_filepath);
+	winHandle = LoadGraph(win_filepath);
+	loseHandle = LoadGraph(lose_filepath);
 
 	coinMgr->Initialize();
 	player = GetRand(1);
 	player1select = 0;
 	player2select = 8;
 	onlineselect = -1;
+	vod = eUndefined;
 
 	click = false;
 
@@ -186,6 +190,62 @@ void Mancala::Update()
 			}
 
 		}
+
+		for (int i = 0; i < 7; i++)
+		{
+			if (coinMgr->Get_boardstatus(i) != 0)
+			{
+				break;
+			}
+
+			if (i == 7 - 1)
+			{
+				if (gamemode == ePvP)
+				{
+					vod = ePlayer1Win;
+				}
+				else
+				{
+					vod = eYouWin;
+				}
+			}
+		}
+		for (int i = 8; i < 16; i++)
+		{
+			if (coinMgr->Get_boardstatus(i) != 0)
+			{
+				break;
+			}
+
+			if (i == 16 - 1)
+			{
+				if (gamemode == ePvP)
+				{
+					vod = ePlayer2Win;
+				}
+				else
+				{
+					vod = eYouLose;
+				}
+			}
+		}
+	}
+
+	if (mOtherInterface->KeyDown(KEY_INPUT_V))
+	{
+		vod = ePlayer1Win;
+	}
+	if (mOtherInterface->KeyDown(KEY_INPUT_B))
+	{
+		vod = ePlayer2Win;
+	}
+	if (mOtherInterface->KeyDown(KEY_INPUT_N))
+	{
+		vod = eYouWin;
+	}
+	if (mOtherInterface->KeyDown(KEY_INPUT_M))
+	{
+		vod = eYouLose;
 	}
 }
 
@@ -200,7 +260,15 @@ void Mancala::Draw()
 	{
 		DrawRotaGraph2(0, 0, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, boardselectHandle[player2select], TRUE, FALSE);
 	}
-	DrawRotaGraph2(SCREEN_SIZEX * PLAYER1_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, player1Handle, TRUE, FALSE);
+
+	if (gamemode == ePvP)
+	{
+		DrawRotaGraph2(SCREEN_SIZEX * PLAYER1_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, player1Handle, TRUE, FALSE);
+	}
+	else
+	{
+		DrawRotaGraph2(SCREEN_SIZEX * PLAYER1_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, youHandle, TRUE, FALSE);
+	}
 	DrawRotaGraph2(SCREEN_SIZEX * PLAYER2_IMGX, SCREEN_SIZEY * PLAYER12_IMGY, 335, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, player2Handle, TRUE, FALSE);
 
 	// デバッグ用
@@ -210,6 +278,28 @@ void Mancala::Draw()
 	}*/
 
 	coinMgr->Draw();
+
+	switch (vod)
+	{
+	case ePlayer1Win:
+		DrawRotaGraph2(SCREEN_SIZEX * PlAYER12YOU_WINX - (333.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), SCREEN_SIZEY * PlAYER12YOU_WINY - (101.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.75, 0, player1Handle, TRUE, FALSE);
+		DrawRotaGraph2(SCREEN_SIZEX * WINLOSE_IMGX - (184.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX), SCREEN_SIZEY * WINLOSE_IMGY- (86.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, winHandle, TRUE, FALSE);
+		break;
+	case ePlayer2Win:
+		DrawRotaGraph2(SCREEN_SIZEX * PlAYER12YOU_WINX - (335.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), SCREEN_SIZEY * PlAYER12YOU_WINY- (101.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.75, 0, player2Handle, TRUE, FALSE);
+		DrawRotaGraph2(SCREEN_SIZEX * WINLOSE_IMGX - (184.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX), SCREEN_SIZEY * WINLOSE_IMGY- (86.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, winHandle, TRUE, FALSE);
+		break;
+	case eYouWin:
+		DrawRotaGraph2(SCREEN_SIZEX * PlAYER12YOU_WINX - (161 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), SCREEN_SIZEY * PlAYER12YOU_WINY- (79.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.75, 0, youHandle, TRUE, FALSE);
+		DrawRotaGraph2(SCREEN_SIZEX * WINLOSE_IMGX - (184.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX), SCREEN_SIZEY * WINLOSE_IMGY- (86.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, winHandle, TRUE, FALSE);
+		break;
+	case eYouLose:
+		DrawRotaGraph2(SCREEN_SIZEX * PlAYER12YOU_WINX - (161 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), SCREEN_SIZEY * PlAYER12YOU_WINY- (79.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX * 0.75, 0, youHandle, TRUE, FALSE);
+		DrawRotaGraph2(SCREEN_SIZEX * WINLOSE_IMGX - (193.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX), SCREEN_SIZEY * WINLOSE_IMGY- (84.0 / 2 * SCREEN_SIZEX / STD_SCREENSIZEX * 0.75), 0, 0, SCREEN_SIZEX / STD_SCREENSIZEX, 0, loseHandle, TRUE, FALSE);
+		break;
+	default:
+		break;
+	}
 
 	tcp2.Draw();
 }
