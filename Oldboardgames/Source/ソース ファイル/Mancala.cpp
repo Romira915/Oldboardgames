@@ -72,7 +72,7 @@ void Mancala::Finalize()
 void Mancala::Update()
 {
 	//clsDx();
-	if (mOtherInterface->KeyDown(KEY_INPUT_ESCAPE))
+	if (mOtherInterface->KeyDown(KEY_INPUT_ESCAPE) && !(gamemode == eOnline && tcp2.Get_TCPstatus() == eConnecting))
 	{
 		mSceneChanger->ChangeScene(eScene_Title);
 	}
@@ -210,14 +210,14 @@ void Mancala::Update()
 				}
 			}
 		}
-		for (int i = 8; i < 16; i++)
+		for (int i = 8; i < 15; i++)
 		{
 			if (coinMgr->Get_boardstatus(i) != 0)
 			{
 				break;
 			}
 
-			if (i == 16 - 1)
+			if (i == 15 - 1)
 			{
 				if (gamemode == ePvP)
 				{
@@ -229,23 +229,6 @@ void Mancala::Update()
 				}
 			}
 		}
-	}
-
-	if (mOtherInterface->KeyDown(KEY_INPUT_V))
-	{
-		vod = ePlayer1Win;
-	}
-	if (mOtherInterface->KeyDown(KEY_INPUT_B))
-	{
-		vod = ePlayer2Win;
-	}
-	if (mOtherInterface->KeyDown(KEY_INPUT_N))
-	{
-		vod = eYouWin;
-	}
-	if (mOtherInterface->KeyDown(KEY_INPUT_M))
-	{
-		vod = eYouLose;
 	}
 }
 
