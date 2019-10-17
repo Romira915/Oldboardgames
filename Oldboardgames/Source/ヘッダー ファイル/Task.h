@@ -52,7 +52,7 @@
 // タイトルシーン　ここまで
 
 // TCPクラス
-#define SERVER_IP "192.168.1.29"
+#define SERVER_IP "35.203.168.127"
 typedef enum {
 	eRequestConnecting,
 	eConnecting,
