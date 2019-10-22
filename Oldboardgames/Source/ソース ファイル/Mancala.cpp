@@ -11,12 +11,14 @@ Mancala::Mancala(ISceneChanger* changer, OtherInterface* OI, eMancalaMode mode) 
 	coinMgr = new CoinManager(OI);
 	gamemode = mode;
 	tcp_message = "null";
+	readfile.open("online.ini");
 
 	logout.open("logpos.txt");
 }
 
 Mancala::~Mancala()
 {
+	readfile.close();
 	logout.close();
 }
 
@@ -50,7 +52,9 @@ void Mancala::Initialize()
 	tcp2.Initialize();
 	if (gamemode == eOnline)
 	{
-		tcp2.Client_connect(std::string(SERVER_IP));
+		std::string ip;
+		std::getline(readfile, ip);
+		tcp2.Client_connect(std::string(ip));
 	}
 }
 

@@ -39,19 +39,44 @@ int main()
 
     setsockopt(sock0, SOL_SOCKET, SO_REUSEADDR, (const char *)&yes, sizeof(yes));
 
+    std::string client1_ip;
+
     while (1)
     {
-        len1 = sizeof(client1);
-        sock1 = accept(sock0, (struct sockaddr *)&client1, &len1);
-        write(sock1, "server", 6);
+        // len1 = sizeof(client1);
+        // sock1 = accept(sock0, (struct sockaddr *)&client1, &len1);
+
+        // len2 = sizeof(client2);
+        // sock2 = accept(sock0, (struct sockaddr *)&client2, &len2);
+
+        while (true)
+        {
+            if (write(sock1, "server", 6) < 0)
+            {
+                len1 = sizeof(client1);
+                sock1 = accept(sock0, (struct sockaddr *)&client1, &len1);
+                client1_ip = std::string("ip") + std::string(inet_ntoa(client1.sin_addr));
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        while (true)
+        {
+            if (write(sock2, client1_ip.c_str(), client1_ip.length()) < 0)
+            {
+                len2 = sizeof(client2);
+                sock2 = accept(sock0, (struct sockaddr *)&client2, &len2);
+            }
+            else
+            {
+                break;
+            }
+        }
 
         close(sock1);
-
-        len2 = sizeof(client2);
-        sock2 = accept(sock0, (struct sockaddr *)&client2, &len2);
-        std::string client1_ip = std::string("ip") + std::string(inet_ntoa(client1.sin_addr));
-        write(sock2, client1_ip.c_str(), client1_ip.length() );
-
         close(sock2);
     }
 

@@ -61,6 +61,8 @@ private:
 	TCP2 tcp2;
 	std::string tcp_message;
 
+	std::ifstream readfile;
+
 	// デバッグ変数
 	bool click;
 	int x, y;
