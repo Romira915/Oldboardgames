@@ -14,6 +14,7 @@ int main()
     socklen_t len1, len2;
     int sock1, sock2;
     int yes = 1;
+    char buf[32];
 
     if ((sock0 = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
@@ -39,41 +40,25 @@ int main()
 
     setsockopt(sock0, SOL_SOCKET, SO_REUSEADDR, (const char *)&yes, sizeof(yes));
 
-    std::string client1_ip;
-
     while (1)
     {
-        // len1 = sizeof(client1);
-        // sock1 = accept(sock0, (struct sockaddr *)&client1, &len1);
+        len1 = sizeof(client1);
+        sock1 = accept(sock0, (struct sockaddr *)&client1, &len1);
 
-        // len2 = sizeof(client2);
-        // sock2 = accept(sock0, (struct sockaddr *)&client2, &len2);
+        len2 = sizeof(client2);
+        sock2 = accept(sock0, (struct sockaddr *)&client2, &len2);
+        std::string client1_ip = std::string("ip") + std::string(inet_ntoa(client1.sin_addr));
 
-        while (true)
+        write(sock1, "server", 6);
+        memset(buf, 0, sizeof(buf));
+        read(sock1, buf, sizeof(buf));
+        if (std::string(buf) == "on server")
         {
-            if (write(sock1, "server", 6) < 0)
-            {
-                len1 = sizeof(client1);
-                sock1 = accept(sock0, (struct sockaddr *)&client1, &len1);
-                client1_ip = std::string("ip") + std::string(inet_ntoa(client1.sin_addr));
-            }
-            else
-            {
-                break;
-            }
+            write(sock2, client1_ip.c_str(), client1_ip.length());
         }
-
-        while (true)
+        else
         {
-            if (write(sock2, client1_ip.c_str(), client1_ip.length()) < 0)
-            {
-                len2 = sizeof(client2);
-                sock2 = accept(sock0, (struct sockaddr *)&client2, &len2);
-            }
-            else
-            {
-                break;
-            }
+            write(sock2, "disconnect", 10);
         }
 
         close(sock1);

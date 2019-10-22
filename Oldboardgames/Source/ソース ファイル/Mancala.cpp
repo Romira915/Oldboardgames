@@ -92,6 +92,7 @@ void Mancala::Update()
 
 		if (tcp_message == "server")
 		{
+			tcp2.Send_message("on server");
 			player = 1;
 			printfDx("listen\n");
 			tcp2.Server_listen(60000);
@@ -100,6 +101,10 @@ void Mancala::Update()
 		{
 			player = 0;
 			tcp2.Client_connect(tcp_message.substr(2), 60000);
+		}
+		else if (tcp_message == "disconnect")
+		{
+			printfDx("í êMé∏îs\n");
 		}
 		else
 		{
