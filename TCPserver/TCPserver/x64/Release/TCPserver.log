@@ -1,0 +1,7 @@
+﻿  server.cpp
+C:\Users\Yudai\workspace\Project\Oldboardgames\TCPserver\TCPserver\server.cpp(40,57): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+  コード生成しています。
+  Previous IPDB not found, fall back to full compilation.
+  All 92 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  TCPserver.vcxproj -> C:\Users\Yudai\workspace\Project\Oldboardgames\TCPserver\x64\Release\TCPserver.exe
