@@ -1,46 +1,19 @@
-﻿  BaseScene.cpp
-  Coin.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Coin.cpp(16,31): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Coin.cpp(17,31): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Coin.cpp(33,45): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  CoinManager.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Coin.cpp(33,23): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(12,38): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(13,38): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(19,33): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(20,33): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(34,60): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(94,249): warning C4305: '引数': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(100,241): warning C4305: '引数': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(115,86): warning C4305: '引数': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(138,75): warning C4305: '引数': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(150,67): warning C4305: '引数': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(168,128): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-  fps.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\CoinManager.cpp(168,62): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\fps.cpp(23,53): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\fps.cpp(42,19): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
-  main.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\fps.cpp(48,92): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\main.cpp(36,85): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-  Mancala.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\main.cpp(36,32): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(122,1): error C2059: 構文エラー: '<<'
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(124,1): error C2059: 構文エラー: '=='
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(126,3): error C2143: 構文エラー: ';' が '{' の前にありません。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(152,3): error C2181: else 文が if と一致しません。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(244,1): error C2059: 構文エラー: '>>'
+﻿  Mancala.cpp
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(258,60): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(258,31): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(262,60): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(262,31): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(266,60): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(266,31): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(268,59): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(268,30): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(281,137): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(264,59): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(264,30): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(277,137): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(277,50): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(278,121): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(278,46): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(281,136): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(281,50): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(282,121): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(282,46): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(285,136): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(285,134): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(285,50): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(286,121): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(286,46): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
@@ -48,38 +21,8 @@ C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース �
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(289,50): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(290,121): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
 C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(290,46): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(293,134): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(293,50): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(294,121): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-  Move.cpp
-  Other.cpp
-  SceneManager.cpp
-  OldTCP.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Mancala.cpp(294,46): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\OldTCP.cpp(213,47): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-  TCP2.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\OldTCP.cpp(270,47): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-  Title.cpp
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\TCP2.cpp(134,53): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(18,27): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(19,44): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(46,28): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(47,46): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(54,28): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(55,46): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(62,31): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(63,49): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(70,29): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(71,47): warning C4305: '=': 'double' から 'float' へ切り詰めます。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(84,102): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(84,40): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(85,99): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(85,38): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(86,99): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(86,38): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(87,102): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(87,41): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(88,100): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(88,39): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(89,37): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\Users\Yudai\workspace\Project\Oldboardgames\Oldboardgames\source\ソース ファイル\Title.cpp(89,25): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  コード生成しています。
+  Previous IPDB not found, fall back to full compilation.
+  All 703 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  Oldboardgames.vcxproj -> C:\Users\Yudai\workspace\Project\Oldboardgames\x64\Release\Oldboardgames.exe

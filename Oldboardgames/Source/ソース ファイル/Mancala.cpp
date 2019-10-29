@@ -119,9 +119,6 @@ void Mancala::Update()
 
 	if (coinMgr->All_Rest())
 	{
-<<<<<<< HEAD
-		coin.Move_toP(coindrawpos[0][0].x, coindrawpos[0][0].y, 1);
-=======
 		if (player == 0)
 		{
 			if (mOtherInterface->KeyDown(KEY_INPUT_LEFT))
@@ -241,7 +238,6 @@ void Mancala::Update()
 				}
 			}
 		}
->>>>>>> develop
 	}
 }
 
