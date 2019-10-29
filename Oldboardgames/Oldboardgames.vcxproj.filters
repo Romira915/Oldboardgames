@@ -15,60 +15,84 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\ソース ファイル\Main.cpp">
+    <ClCompile Include="source\ソース ファイル\BaseScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\SceneManager.cpp">
+    <ClCompile Include="source\ソース ファイル\Coin.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\BaseScene.cpp">
+    <ClCompile Include="source\ソース ファイル\CoinManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\Title.cpp">
+    <ClCompile Include="source\ソース ファイル\fps.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\Other.cpp">
+    <ClCompile Include="source\ソース ファイル\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\Mancala.cpp">
+    <ClCompile Include="source\ソース ファイル\Mancala.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\Move.cpp">
+    <ClCompile Include="source\ソース ファイル\Move.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ソース ファイル\Coin.cpp">
+    <ClCompile Include="source\ソース ファイル\Other.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ソース ファイル\SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ソース ファイル\Title.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ソース ファイル\TCP2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ソース ファイル\OldTCP.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\ヘッダー ファイル\SceneManager.h">
+    <ClInclude Include="source\ヘッダー ファイル\BaseScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\Task.h">
+    <ClInclude Include="source\ヘッダー ファイル\coin.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\ISceneChanger.h">
+    <ClInclude Include="source\ヘッダー ファイル\CoinManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\BaseScene.h">
+    <ClInclude Include="source\ヘッダー ファイル\fps.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\Title.h">
+    <ClInclude Include="source\ヘッダー ファイル\ISceneChanger.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\OtherInterface.h">
+    <ClInclude Include="source\ヘッダー ファイル\Mancala.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\Other.h">
+    <ClInclude Include="source\ヘッダー ファイル\Move.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\Mancala.h">
+    <ClInclude Include="source\ヘッダー ファイル\Other.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\Move.h">
+    <ClInclude Include="source\ヘッダー ファイル\OtherInterface.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ヘッダー ファイル\Coin.h">
+    <ClInclude Include="source\ヘッダー ファイル\SceneManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ヘッダー ファイル\Task.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ヘッダー ファイル\Title.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ヘッダー ファイル\TCP2.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ヘッダー ファイル\OldTCP.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

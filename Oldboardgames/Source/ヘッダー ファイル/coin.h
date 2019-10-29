@@ -5,7 +5,7 @@
 class Coin : public Move
 {
 public:
-	Coin();
+	Coin(int Handle);
 	~Coin();
 
 	void Initialize() override;
@@ -13,7 +13,12 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void Set_postype(unsigned char input);
+	int Get_postype();
+
 private:
 	const std::string coin_filepath = "Assets//coin";
 	int coinHandle;
+
+	int postype;
 };
