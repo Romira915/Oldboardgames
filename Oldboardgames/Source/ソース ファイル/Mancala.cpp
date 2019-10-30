@@ -88,13 +88,11 @@ void Mancala::Update()
 	if (tcp2.Get_TCPstatus() == eReceived)
 	{
 		tcp_message = tcp2.Get_message();
-		printfDx("%s‚ðŽóM\n", tcp_message.c_str());
 
 		if (tcp_message == "server")
 		{
 			tcp2.Send_message("on server");
 			player = 1;
-			printfDx("listen\n");
 			tcp2.Server_listen(60000);
 		}
 		else if (tcp_message.find_first_of("ip") == 0)
@@ -104,12 +102,11 @@ void Mancala::Update()
 		}
 		else if (tcp_message == "disconnect")
 		{
-			printfDx("’ÊMŽ¸”s\n");
+			//printfDx("’ÊMŽ¸”s\n");
 		}
 		else
 		{
 			onlineselect = stoi(tcp_message);
-			printfDx("”’l%d‚É•ÏŠ·\n", onlineselect);
 			if (!(onlineselect >= 8 && onlineselect <= 14))
 			{
 				onlineselect = -1;
