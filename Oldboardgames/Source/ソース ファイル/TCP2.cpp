@@ -6,7 +6,7 @@
 TCP2::TCP2()
 {
 	if (WSAStartup(MAKEWORD(2, 0), &wsaData) != 0) {
-		printfDx("WSAStartup failed\n");
+		//printfDx("WSAStartup failed\n");
 	}
 
 	memset(buf, 0, sizeof(buf));
@@ -57,7 +57,6 @@ void TCP2::Finalize()
 		}
 	}
 
-	printfDx("終わり\n");
 	tcp_th.join();
 }
 
@@ -153,12 +152,11 @@ void TCP2::TCP_onthread()
 					tcp_status = eConnecting;
 				}
 
-				printfDx("connectするよ\n");
 				unsigned int** addrptr;
 
 				server_sock = socket(AF_INET, SOCK_STREAM, 0);
 				if (server_sock == INVALID_SOCKET) {
-					printfDx("socket : %d\n", WSAGetLastError());
+					//printfDx("socket : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
 					break;
@@ -177,7 +175,7 @@ void TCP2::TCP_onthread()
 					host = gethostbyname(ip.c_str());
 					if (host == NULL) {
 						if (WSAGetLastError() == WSAHOST_NOT_FOUND) {
-							printfDx("host not found : %s\n", ip);
+							//printfDx("host not found : %s\n", ip);
 							std::lock_guard<std::mutex> lock(mtx_tcp_status);
 							tcp_status = eError;
 							break;
@@ -201,7 +199,7 @@ void TCP2::TCP_onthread()
 
 					// connectが全て失敗した場合
 					if (*addrptr == NULL) {
-						printfDx("connect : %d\n", WSAGetLastError());
+						//printfDx("connect : %d\n", WSAGetLastError());
 						std::lock_guard<std::mutex> lock(mtx_tcp_status);
 						tcp_status = eError;
 						break;
@@ -210,17 +208,16 @@ void TCP2::TCP_onthread()
 				else {
 					// inet_addr()が成功したとき
 
-					printfDx("connectするよ２\n");
 					// connectが失敗したらエラーを表示して終了
 					if (connect(server_sock, (struct sockaddr*) & server, sizeof(server)) != 0) {
-						printfDx("connect : %d\n", WSAGetLastError());
+						//printfDx("connect : %d\n", WSAGetLastError());
 						std::lock_guard<std::mutex> lock(mtx_tcp_status);
 						tcp_status = eError;
 						break;
 					}
 					else
 					{
-						printfDx("on connect\n");
+						//printfDx("on connect\n");
 						std::lock_guard<std::mutex> lock(mtx_tcp_status);
 						tcp_status = eConnected;
 					}
@@ -235,7 +232,7 @@ void TCP2::TCP_onthread()
 
 				bind_sock = socket(AF_INET, SOCK_STREAM, 0);
 				if (bind_sock == INVALID_SOCKET) {
-					printfDx("socket : %d\n", WSAGetLastError());
+					//printfDx("socket : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
 					break;
@@ -251,7 +248,7 @@ void TCP2::TCP_onthread()
 				setsockopt(bind_sock, SOL_SOCKET, SO_REUSEADDR, (const char*)&yes, sizeof(yes));
 
 				if (bind(bind_sock, (struct sockaddr*) & addr, sizeof(addr)) != 0) {
-					printfDx("bind : %d\n", WSAGetLastError());
+					//printfDx("bind : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
 					break;
@@ -259,17 +256,17 @@ void TCP2::TCP_onthread()
 
 				if (listen(bind_sock, 5) != 0)
 				{
-					printfDx("listen : %d\n", WSAGetLastError());
+					//printfDx("listen : %d\n", WSAGetLastError());
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eError;
 					break;
 				}
 
-				printfDx("listenする準備をするよ\n");
+				//printfDx("listenする準備をするよ\n");
 				len = sizeof(client);
 				while (tcp_status != eRequestClosing)
 				{
-					printfDx("accept待ち\n");
+					//printfDx("accept待ち\n");
 					memcpy(&fds, &readfds, sizeof(fd_set));
 
 					select(0, &fds, NULL, NULL, &tv);
@@ -290,7 +287,7 @@ void TCP2::TCP_onthread()
 					std::lock_guard<std::mutex> lock(mtx_tcp_status);
 					tcp_status = eConnected;
 				}
-				printfDx("accept\n");
+				//printfDx("accept\n");
 			}
 		}
 		break;
@@ -305,7 +302,7 @@ void TCP2::TCP_onthread()
 
 			if (select(0, &fds, NULL, NULL, &tv) > 0)
 			{
-				printfDx("select\n");
+				//printfDx("select\n");
 				SOCKET sock = 0;
 
 				if (eTCP_mode == eClient)
@@ -321,7 +318,7 @@ void TCP2::TCP_onthread()
 					int n = recv(sock, buf, sizeof(buf), 0);
 
 					if (n < 0) {
-						printfDx("recv : %d\n", WSAGetLastError());
+						//printfDx("recv : %d\n", WSAGetLastError());
 						std::lock_guard<std::mutex> lock(mtx_tcp_status);
 						tcp_status = eError;
 						break;
@@ -338,7 +335,7 @@ void TCP2::TCP_onthread()
 					std::lock_guard<std::mutex> lock2(mtx_message);
 					message = std::string(buf);
 
-					printfDx("%d, %s, eConnected内\n", n, buf);
+					//printfDx("%d, %s, eConnected内\n", n, buf);
 				}
 			}
 		}
@@ -380,7 +377,6 @@ void TCP2::TCP_onthread()
 		case eError:
 			mtx_tcp_status.unlock();
 
-			printfDx("エラーなんですが\n");
 			if (server_sock != 0)
 			{
 				closesocket(server_sock);
@@ -393,7 +389,6 @@ void TCP2::TCP_onthread()
 				std::lock_guard<std::mutex> lock(mtx_tcp_status);
 				tcp_status = eFinalize;
 			}
-			printfDx("エラー終わり\n");
 			break;
 		case eFinalize:
 			mtx_tcp_status.unlock();

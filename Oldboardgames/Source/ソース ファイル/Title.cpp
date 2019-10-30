@@ -63,7 +63,7 @@ void Title::Update()
 		cursorXY.y = SCREEN_SIZEY * (ONLINE_Y + 0.016);
 		if (mOtherInterface->KeyDown(KEY_INPUT_RETURN))
 		{
-			mSceneChanger->ChangeScene(eScene_MancalaOnline);
+			//mSceneChanger->ChangeScene(eScene_MancalaOnline);
 		}
 		break;
 	case eExit:
