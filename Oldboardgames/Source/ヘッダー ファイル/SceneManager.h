@@ -1,5 +1,4 @@
 #pragma once
-
 #include "ISceneChanger.h"
 #include "BaseScene.h"
 #include "Other.h"

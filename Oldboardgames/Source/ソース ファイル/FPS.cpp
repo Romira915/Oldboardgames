@@ -20,7 +20,7 @@ FPS::~FPS()
 
 void FPS::Initialize()
 {
-	fontHandle = CreateFontToHandle(NULL, FONTSIZE * SCREEN_SIZEX, -1);
+	fontHandle = CreateFontToHandle(NULL, FPS_FONTSIZE * SCREEN_SIZEX, -1);
 	counter = 0;
 	nowfps = 0;
 	starttime = 0;
